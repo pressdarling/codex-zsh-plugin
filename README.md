@@ -125,7 +125,9 @@ If you encounter issues with the plugin, here are some common troubleshooting st
 This plugin is dual-licensed under the [MIT License](https://opensource.org/license/mit/) and [The Unlicense](https://unlicense.org/). You can choose either license for your use.
 
 ## Contributing
-We love contributions! If you have ideas for improvements, bug fixes, or new features, please open an issue and/or submit a pull request. Alternatively, you can also fork the repository and make changes directly.
+We love contributions! If you have ideas for improvements, bug fixes, or new features, please open an issue and/or submit a pull request. It will most likely languish as this is a personal project, but I will address issues and PRs as time allows. 
+
+Alternatively, you can also fork the repository and make changes directly, or straight up copy the code into your own plugin if you prefer not to use this one. It's free ~~real estate~~ software, after all.
 
 ## Acknowledgements
 This plugin is inspired by every other mf out there who has ever created a zsh plugin, and it addresses the author's need for a more efficient and user-friendly way to use the `codex` CLI tool in zsh. Special thanks to the OpenAI team for creating the Codex CLI and to the zsh community for their contributions to zsh plugins.
