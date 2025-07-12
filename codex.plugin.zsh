@@ -11,4 +11,20 @@ if [[ ! -f "$ZSH_CACHE_DIR/completions/_codex" ]]; then
   _comps[codex]=_codex
 fi
 
-codex completion zsh >| "$ZSH_CACHE_DIR/completions/_codex" &|
+codex_update_completions() {
+  codex completion zsh >| "$ZSH_CACHE_DIR/completions/_codex"
+  _codex_notify "Codex completions updated."
+}
+
+_codex_notify() {
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    osascript -e "display notification \"$1\" with title \"Oh My Zsh\""
+  fi
+}
+
+if command -v async_start_worker &> /dev/null; then
+  async_start_worker codex -n
+  async_register_callback codex codex_update_completions
+else
+  codex_update_completions &|
+fi
