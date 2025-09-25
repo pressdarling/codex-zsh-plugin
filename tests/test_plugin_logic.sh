@@ -25,8 +25,9 @@ ZSH_CACHE_DIR="$(mktemp -d)"
 mkdir -p "$ZSH_CACHE_DIR/completions"
 
 # Mock the codex command by creating a fake executable
-export PATH="$(mktemp -d):$PATH"
-cat << 'EOF' > "${PATH%%:*}/codex"
+CODEX_MOCK_DIR="$(mktemp -d)"
+export PATH="$CODEX_MOCK_DIR:$PATH"
+cat << 'EOF' > "$CODEX_MOCK_DIR/codex"
 #!/usr/bin/env zsh
 if [[ "$1" == "completion" && "$2" == "zsh" ]]; then
   echo "#compdef codex"
@@ -35,7 +36,7 @@ else
   echo "mocked codex"
 fi
 EOF
-chmod +x "${PATH%%:*}/codex"
+chmod +x "$CODEX_MOCK_DIR/codex"
 
 # Mock shasum
 shasum() {
@@ -102,5 +103,6 @@ echo "Test 3 PASSED"
 
 # Clean up
 rm -rf "$ZSH_CACHE_DIR"
+rm -rf "$CODEX_MOCK_DIR"
 
 echo "All tests passed!"
