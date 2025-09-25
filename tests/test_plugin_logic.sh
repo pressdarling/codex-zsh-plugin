@@ -23,6 +23,7 @@
 # Mock the environment
 ZSH_CACHE_DIR="$(mktemp -d)"
 mkdir -p "$ZSH_CACHE_DIR/completions"
+fpath=("$ZSH_CACHE_DIR/completions" $fpath)
 
 # Mock the codex command by creating a fake executable
 CODEX_MOCK_DIR="$(mktemp -d)"
@@ -105,6 +106,20 @@ codex_update_completions() {
 }
 source "${0:A:h}/../codex.plugin.zsh"
 echo "Test 3 PASSED"
+
+# Test 4: shasum fails, but completions are still loaded
+echo "Running Test 4: shasum fails"
+shasum() { echo ""; }
+# ensure completions are loaded by checking if _codex is in _comps
+typeset -g -A _comps
+_comps=()
+source "${0:A:h}/../codex.plugin.zsh"
+if [[ -n "${_comps[codex]}" ]]; then
+  echo "Test 4 PASSED"
+else
+  echo "Test 4 FAILED"
+  exit 1
+fi
 
 
 # Clean up
