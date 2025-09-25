@@ -70,15 +70,14 @@ if ! command -v async_start_worker &> /dev/null; then
   }
 fi
 
-# Source the plugin
-source "${0:A:h}/../codex.plugin.zsh"
-
 #
 # Test cases
 #
 
 # Test 1: First run, no completion file, no hash file
 echo "Running Test 1: First run"
+unset -f _codex &>/dev/null
+typeset -g -A _comps; _comps=()
 rm -f "$_codex_completion_file" "$_codex_hash_file"
 source "${0:A:h}/../codex.plugin.zsh"
 if [[ -f "$_codex_completion_file" && -f "$_codex_hash_file" ]]; then
@@ -90,6 +89,7 @@ fi
 
 # Test 2: Completion file exists, but hash is different
 echo "Running Test 2: Hash mismatch"
+typeset -g -A _comps; _comps=()
 shasum() { echo "new_mocked_hash"; }
 source "${0:A:h}/../codex.plugin.zsh"
 if [[ "$(cat $_codex_hash_file)" == "new_mocked_hash" ]]; then
@@ -101,6 +101,7 @@ fi
 
 # Test 3: Completion file and hash are up to date
 echo "Running Test 3: Up to date"
+typeset -g -A _comps; _comps=()
 # clear mocks to see if update is called
 unset -f codex_update_completions
 codex_update_completions() {
@@ -112,10 +113,15 @@ echo "Test 3 PASSED"
 
 # Test 4: shasum fails, but completions are still loaded
 echo "Running Test 4: shasum fails"
+unset -f _codex &>/dev/null
+typeset -g -A _comps; _comps=()
+# Create a dummy completion file to simulate it existing from a previous run
+cat << EOF >| "$_codex_completion_file"
+#compdef codex
+_codex() { :; }
+EOF
 shasum() { echo ""; }
 # ensure completions are loaded by checking if _codex is in _comps
-typeset -g -A _comps
-_comps=()
 source "${0:A:h}/../codex.plugin.zsh"
 if [[ -n "${_comps[codex]}" ]]; then
   echo "Test 4 PASSED"
