@@ -20,7 +20,11 @@ _codex_notify() {
   fi
 }
 
-_codex_current_hash="$(shasum -a 256 "$(command -v codex)" | cut -d' ' -f1)"
+_codex_current_hash="$(shasum -a 256 "$(command -v codex)" 2>/dev/null | cut -d' ' -f1)"
+if [[ -z "$_codex_current_hash" ]]; then
+  # shasum failed, can't check for updates.
+  return
+fi
 _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
 
 if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
