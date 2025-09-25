@@ -29,8 +29,8 @@ fpath=("$ZSH_CACHE_DIR/completions" $fpath)
 CODEX_MOCK_DIR="$(mktemp -d)"
 export PATH="$CODEX_MOCK_DIR:$PATH"
 cat << 'EOF' > "$CODEX_MOCK_DIR/codex"
-#!/usr/bin/env zsh
-if [[ "$1" == "completion" && "$2" == "zsh" ]]; then
+#!/bin/sh
+if [ "$1" = "completion" ] && [ "$2" = "zsh" ]; then
   echo "#compdef codex"
   echo "_codex() { }"
 else
