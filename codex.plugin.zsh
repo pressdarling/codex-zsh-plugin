@@ -26,17 +26,23 @@ _codex_notify() {
   fi
 }
 
-_codex_current_hash="$(shasum -a 256 "$(command -v codex)" 2>/dev/null | cut -d' ' -f1)"
-if [[ -n "$_codex_current_hash" ]]; then
-  # shasum succeeded, check for updates.
-  _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
+if [[ ! -f "$_codex_completion_file" ]]; then
+  # Completions don't exist, generate them now.
+  codex_update_completions "nohash" "$_codex_completion_file" "$_codex_hash_file"
+else
+  # Completions exist, check if they are outdated.
+  _codex_current_hash="$(shasum -a 256 "$(command -v codex)" 2>/dev/null | cut -d' ' -f1)"
+  if [[ -n "$_codex_current_hash" ]]; then
+    # shasum succeeded, check for updates.
+    _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
 
-  if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
-    if command -v async_start_worker &> /dev/null; then
-      async_start_worker codex
-      async_job codex codex_update_completions "$_codex_current_hash" "$_codex_completion_file" "$_codex_hash_file"
-    else
-      codex_update_completions "$_codex_current_hash" "$_codex_completion_file" "$_codex_hash_file" &|
+    if [[ "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
+      if command -v async_start_worker &> /dev/null; then
+        async_start_worker codex
+        async_job codex codex_update_completions "$_codex_current_hash" "$_codex_completion_file" "$_codex_hash_file"
+      else
+        codex_update_completions "$_codex_current_hash" "$_codex_completion_file" "$_codex_hash_file" &|
+      fi
     fi
   fi
 fi
