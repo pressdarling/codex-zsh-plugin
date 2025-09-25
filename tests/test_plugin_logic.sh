@@ -24,15 +24,18 @@
 ZSH_CACHE_DIR="$(mktemp -d)"
 mkdir -p "$ZSH_CACHE_DIR/completions"
 
-# Mock the codex command
-codex() {
-  if [[ "$1" == "completion" && "$2" == "zsh" ]]; then
-    echo "#compdef codex"
-    echo "_codex() { }"
-  else
-    echo "mocked codex"
-  fi
-}
+# Mock the codex command by creating a fake executable
+export PATH="$(mktemp -d):$PATH"
+cat << 'EOF' > "${PATH%%:*}/codex"
+#!/usr/bin/env zsh
+if [[ "$1" == "completion" && "$2" == "zsh" ]]; then
+  echo "#compdef codex"
+  echo "_codex() { }"
+else
+  echo "mocked codex"
+fi
+EOF
+chmod +x "${PATH%%:*}/codex"
 
 # Mock shasum
 shasum() {
@@ -49,15 +52,15 @@ if ! command -v async_start_worker &> /dev/null; then
   async_start_worker() {
     echo "async_start_worker mocked"
   }
-  async_register_callback() {
-    echo "async_register_callback mocked, calling back now"
+  async_job() {
+    echo "async_job mocked, calling back now"
     # in our mock, we call the callback immediately
-    $2
+    $2 "$3"
   }
 fi
 
 # Source the plugin
-source ../codex.plugin.zsh
+source "${0:A:h}/../codex.plugin.zsh"
 
 #
 # Test cases
@@ -66,7 +69,7 @@ source ../codex.plugin.zsh
 # Test 1: First run, no completion file, no hash file
 echo "Running Test 1: First run"
 rm -f "$_codex_completion_file" "$_codex_hash_file"
-source ../codex.plugin.zsh
+source "${0:A:h}/../codex.plugin.zsh"
 if [[ -f "$_codex_completion_file" && -f "$_codex_hash_file" ]]; then
   echo "Test 1 PASSED"
 else
@@ -77,7 +80,7 @@ fi
 # Test 2: Completion file exists, but hash is different
 echo "Running Test 2: Hash mismatch"
 shasum() { echo "new_mocked_hash"; }
-source ../codex.plugin.zsh
+source "${0:A:h}/../codex.plugin.zsh"
 if [[ "$(cat $_codex_hash_file)" == "new_mocked_hash" ]]; then
   echo "Test 2 PASSED"
 else
@@ -93,7 +96,7 @@ codex_update_completions() {
   echo "ERROR: codex_update_completions should not be called"
   exit 1
 }
-source ../codex.plugin.zsh
+source "${0:A:h}/../codex.plugin.zsh"
 echo "Test 3 PASSED"
 
 

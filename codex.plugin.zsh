@@ -8,26 +8,27 @@ _codex_completion_file="$ZSH_CACHE_DIR/completions/_codex"
 _codex_hash_file="$ZSH_CACHE_DIR/completions/_codex.hash"
 
 codex_update_completions() {
+  local new_hash="$1"
   codex completion zsh >| "$_codex_completion_file"
-  echo "$_codex_current_hash" >| "$_codex_hash_file"
+  echo "$new_hash" >| "$_codex_hash_file"
   _codex_notify "Codex completions updated."
 }
 
 _codex_notify() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    osascript -e "display notification \"$1\" with title \"Oh My Zsh\""
+    osascript -e 'on run argv' -e 'display notification (item 1 of argv) with title "Oh My Zsh"' -e 'end run' -- "$1"
   fi
 }
 
-_codex_current_hash="$(command -v codex | xargs shasum -a 256 | cut -d' ' -f1)"
+_codex_current_hash="$(shasum -a 256 "$(command -v codex)" | cut -d' ' -f1)"
 _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
 
 if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
   if command -v async_start_worker &> /dev/null; then
-    async_start_worker codex -n
-    async_register_callback codex codex_update_completions
+    async_start_worker codex
+    async_job codex codex_update_completions "$_codex_current_hash"
   else
-    codex_update_completions &|
+    codex_update_completions "$_codex_current_hash" &|
   fi
 fi
 
