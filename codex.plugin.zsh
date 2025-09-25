@@ -28,10 +28,21 @@ _codex_notify() {
 
 if [[ ! -f "$_codex_completion_file" ]]; then
   # Completions don't exist, generate them now.
-  codex_update_completions "nohash" "$_codex_completion_file" "$_codex_hash_file"
+  if command -v async_start_worker &> /dev/null; then
+    async_start_worker codex
+    async_job codex codex_update_completions "nohash" "$_codex_completion_file" "$_codex_hash_file"
+  else
+    codex_update_completions "nohash" "$_codex_completion_file" "$_codex_hash_file" &|
+  fi
 else
   # Completions exist, check if they are outdated.
-  _codex_current_hash="$(shasum -a 256 "$(command -v codex)" 2>/dev/null | cut -d' ' -f1)"
+  _codex_current_hash=$({
+    local codex_path
+    codex_path="$(command -v codex)"
+    if [[ -n "$codex_path" ]]; then
+      shasum -a 256 "$codex_path" 2>/dev/null | cut -d' ' -f1
+    fi
+  })
   if [[ -n "$_codex_current_hash" ]]; then
     # shasum succeeded, check for updates.
     _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
