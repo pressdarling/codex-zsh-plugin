@@ -9,8 +9,10 @@ _codex_hash_file="$ZSH_CACHE_DIR/completions/_codex.hash"
 
 codex_update_completions() {
   local new_hash="$1"
-  codex completion zsh >| "$_codex_completion_file"
-  echo "$new_hash" >| "$_codex_hash_file"
+  local completion_file="$2"
+  local hash_file="$3"
+  codex completion zsh >| "$completion_file"
+  echo "$new_hash" >| "$hash_file"
   _codex_notify "Codex completions updated."
 }
 
@@ -30,9 +32,9 @@ _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
 if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
   if command -v async_start_worker &> /dev/null; then
     async_start_worker codex
-    async_job codex codex_update_completions "$_codex_current_hash"
+    async_job codex codex_update_completions "$_codex_current_hash" "$_codex_completion_file" "$_codex_hash_file"
   else
-    codex_update_completions "$_codex_current_hash" &|
+    codex_update_completions "$_codex_current_hash" "$_codex_completion_file" "$_codex_hash_file" &|
   fi
 fi
 
