@@ -57,15 +57,16 @@ if ! command -v async_start_worker &> /dev/null; then
   async_job() {
     echo "async_job mocked, calling back now"
     # in our mock, we call the callback immediately
-    local allowed_callbacks=("codex_update_completions")
-    if [[ " ${allowed_callbacks[*]} " == *" $2 "* ]]; then
-      local callback="$2"
-      shift 2 # shift away worker name and callback name
-      "$callback" "$@"
-    else
-      echo "ERROR: async_job called with unexpected callback: $2"
-      return 1
-    fi
+    case "$2" in
+      codex_update_completions)
+        shift 2 # shift away worker name and callback name
+        codex_update_completions "$@"
+        ;;
+      *)
+        echo "ERROR: async_job called with unexpected callback: $2"
+        return 1
+        ;;
+    esac
   }
 fi
 
