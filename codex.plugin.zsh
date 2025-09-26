@@ -34,14 +34,19 @@ _codex_notify() {
   fi
 }
 
-if [[ ! -f "$_codex_completion_file" ]]; then
-  # Completions don't exist, generate them now.
+_codex_run_update() {
+  local hash_to_store="$1"
   if command -v async_start_worker &> /dev/null; then
     async_start_worker codex
-    async_job codex codex_update_completions "nohash" "$_codex_completion_file" "$_codex_hash_file"
+    async_job codex codex_update_completions "$hash_to_store" "$_codex_completion_file" "$_codex_hash_file"
   else
-    codex_update_completions "nohash" "$_codex_completion_file" "$_codex_hash_file" &|
+    codex_update_completions "$hash_to_store" "$_codex_completion_file" "$_codex_hash_file" &|
   fi
+}
+
+if [[ ! -f "$_codex_completion_file" ]]; then
+  # Completions don't exist, generate them now.
+  _codex_run_update "nohash"
 else
   # Completions exist, check if they are outdated.
   _codex_current_hash=$({
@@ -56,12 +61,7 @@ else
     _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
 
     if [[ "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
-      if command -v async_start_worker &> /dev/null; then
-        async_start_worker codex
-        async_job codex codex_update_completions "$_codex_current_hash" "$_codex_completion_file" "$_codex_hash_file"
-      else
-        codex_update_completions "$_codex_current_hash" "$_codex_completion_file" "$_codex_hash_file" &|
-      fi
+      _codex_run_update "$_codex_current_hash"
     fi
   fi
 fi
