@@ -89,6 +89,7 @@ fi
 
 # Test 2: Completion file exists, but hash is different
 echo "Running Test 2: Hash mismatch"
+unset -f _codex &>/dev/null
 typeset -g -A _comps; _comps=()
 shasum() { echo "new_mocked_hash"; }
 source "${0:A:h}/../codex.plugin.zsh"
