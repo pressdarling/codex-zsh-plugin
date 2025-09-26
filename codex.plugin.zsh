@@ -7,6 +7,11 @@ fi
 # Ensure the _comps associative array is declared for managing completions.
 typeset -g -A _comps
 
+# Register the completion handler. This will be effective as soon as the
+# completion file is generated.
+autoload -Uz _codex
+_comps[codex]=_codex
+
 _codex_completion_file="$ZSH_CACHE_DIR/completions/_codex"
 _codex_hash_file="$ZSH_CACHE_DIR/completions/_codex.hash"
 
@@ -59,11 +64,4 @@ else
       fi
     fi
   fi
-fi
-
-# If the completion file exists but the function isn't loaded, autoload it.
-# This is for when the update check is skipped.
-if [[ -f "$_codex_completion_file" && ! -n "${_comps[codex]}" ]]; then
-  autoload -Uz _codex
-  _comps[codex]=_codex
 fi
