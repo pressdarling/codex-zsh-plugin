@@ -89,7 +89,6 @@ fi
 
 # Test 2: Completion file exists, but hash is different
 echo "Running Test 2: Hash mismatch"
-unset -f _codex &>/dev/null
 typeset -g -A _comps; _comps=()
 shasum() { echo "new_mocked_hash"; }
 source "${0:A:h}/../codex.plugin.zsh"
@@ -102,7 +101,6 @@ fi
 
 # Test 3: Completion file and hash are up to date
 echo "Running Test 3: Up to date"
-unset -f _codex &>/dev/null
 typeset -g -A _comps; _comps=()
 # clear mocks to see if update is called
 unset -f codex_update_completions
