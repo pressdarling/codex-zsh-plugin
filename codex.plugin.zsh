@@ -51,7 +51,7 @@ else
   # Completions exist, check if they are outdated.
   _codex_current_hash=$({
     local codex_path
-    codex_path="$(command -v codex)"
+    codex_path="$(whence -p codex)"
     if [[ -n "$codex_path" ]]; then
       shasum -a 256 "$codex_path" 2>/dev/null | cut -d' ' -f1
     fi
