@@ -42,7 +42,7 @@ This roadmap outlines critical issues, improvements, and future development plan
 - **Location**: `README.md:85`
 - **Problem**: References `tools/install.sh` which doesn't exist
 - **Impact**: Users can't use curl installation method
-- **Priority**: Medium
+- **Priority**: High
 - **Effort**: 2 hours (create install script)
 
 ### 🔧 Code Quality Issues
@@ -60,7 +60,7 @@ This roadmap outlines critical issues, improvements, and future development plan
 - **Priority**: Medium
 - **Effort**: 1 hour (testing and fixes)
 
-## Documentation Issues (Medium Priority)
+## Documentation Issues
 
 ### 📚 Documentation Improvements
 
@@ -125,18 +125,30 @@ This roadmap outlines critical issues, improvements, and future development plan
 - **Priority**: Medium
 - **Effort**: 30 minutes
 
+#### Issue #15: No Formal Release Process
+- **Problem**: No standardized release procedures or versioning guidelines
+- **Impact**: Inconsistent releases, unclear versioning, missing changelogs
+- **Priority**: Medium
+- **Effort**: 1 hour
+- **Requirements**:
+  - Semantic versioning guidelines
+  - Git tag creation procedures
+  - GitHub release automation
+  - Automated changelog generation
+  - Release testing checklist
+
 ## Feature Improvements (Medium-Low Priority)
 
 ### ✨ Enhanced Functionality
 
-#### Issue #15: Cross-Platform Notifications
+#### Issue #16: Cross-Platform Notifications
 - **Location**: `codex.plugin.zsh:31-35`
 - **Problem**: Notifications only work on macOS
 - **Enhancement**: Add Linux notification support (notify-send)
 - **Priority**: Medium
 - **Effort**: 1 hour
 
-#### Issue #16: Configuration Options
+#### Issue #17: Configuration Options
 - **Problem**: No user configuration options
 - **Enhancement**: Add configurable options for:
   - Notification preferences
@@ -146,13 +158,13 @@ This roadmap outlines critical issues, improvements, and future development plan
 - **Priority**: Low
 - **Effort**: 2-3 hours
 
-#### Issue #17: Debug Mode
+#### Issue #18: Debug Mode
 - **Problem**: No verbose/debug logging
 - **Enhancement**: Add debug mode for troubleshooting
 - **Priority**: Low
 - **Effort**: 1 hour
 
-#### Issue #18: Better Error Messages
+#### Issue #19: Better Error Messages
 - **Problem**: Generic error messages
 - **Enhancement**: More specific, actionable error messages
 - **Priority**: Low
@@ -162,7 +174,7 @@ This roadmap outlines critical issues, improvements, and future development plan
 
 ### 🏛️ Long-term Architecture
 
-#### Issue #19: Plugin Manager Compatibility
+#### Issue #20: Plugin Manager Compatibility
 - **Problem**: Only documented for Oh My Zsh
 - **Enhancement**: Add support documentation for:
   - Zinit
@@ -172,13 +184,13 @@ This roadmap outlines critical issues, improvements, and future development plan
 - **Priority**: Low
 - **Effort**: 2 hours
 
-#### Issue #20: Performance Monitoring
+#### Issue #21: Performance Monitoring
 - **Problem**: No performance metrics
 - **Enhancement**: Add timing and performance tracking
 - **Priority**: Low
 - **Effort**: 2 hours
 
-#### Issue #21: Update Mechanism
+#### Issue #22: Update Mechanism
 - **Problem**: No self-update capability
 - **Enhancement**: Add plugin self-update functionality
 - **Priority**: Low
@@ -208,24 +220,25 @@ This roadmap outlines critical issues, improvements, and future development plan
 - [ ] Add usage examples (#9)
 - [ ] Add GitHub templates (#13)
 - [ ] Add security policy (#14)
+- [ ] Formalize release process (#15)
 
 ### Version 1.3.0 (Feature Enhancements)
 **Target**: 2-3 months
 **Focus**: Cross-platform support and user experience
 
-- [ ] Cross-platform notifications (#15)
-- [ ] Configuration options (#16)
-- [ ] Debug mode (#17)
-- [ ] Better error messages (#18)
+- [ ] Cross-platform notifications (#16)
+- [ ] Configuration options (#17)
+- [ ] Debug mode (#18)
+- [ ] Better error messages (#19)
 - [ ] Complete troubleshooting guide (#10)
 
 ### Version 2.0.0 (Architecture Improvements)
 **Target**: 6+ months
 **Focus**: Advanced features and architecture improvements
 
-- [ ] Plugin manager compatibility (#19)
-- [ ] Performance monitoring (#20)
-- [ ] Update mechanism (#21)
+- [ ] Plugin manager compatibility (#20)
+- [ ] Performance monitoring (#21)
+- [ ] Update mechanism (#22)
 - [ ] Advanced configuration system
 - [ ] Plugin ecosystem compatibility
 
@@ -235,13 +248,13 @@ This roadmap outlines critical issues, improvements, and future development plan
 - [ ] 100% test coverage for core functionality
 - [ ] Zero critical bugs in production
 - [ ] All CI/CD checks passing
-- [ ] Documentation completeness score > 90%
+- [ ] Documentation completeness score > 90% (measured via checklist: README completeness, inline code comments, troubleshooting coverage, installation instructions clarity, and example usage)
 
 ### User Experience Metrics
-- [ ] Installation success rate > 95%
+- [ ] Installation success rate > 95% (tracked via GitHub issue frequency: < 1 installation-related issue per 20 new users/stars)
 - [ ] User-reported issues < 1 per month
-- [ ] Positive community feedback
-- [ ] Active community contributions
+- [ ] Positive community feedback (measured by issue/PR sentiment analysis and community surveys)
+- [ ] Active community contributions (≥ 2 external contributors per quarter)
 
 ### Technical Metrics
 - [ ] Plugin load time < 50ms
