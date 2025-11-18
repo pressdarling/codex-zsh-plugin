@@ -251,7 +251,7 @@ This roadmap outlines critical issues, improvements, and future development plan
 - [ ] Documentation completeness score > 90% (measured via checklist: README completeness, inline code comments, troubleshooting coverage, installation instructions clarity, and example usage)
 
 ### User Experience Metrics
-- [ ] Installation success rate > 95% (tracked via GitHub issue frequency: < 1 installation-related issue per 20 new users/stars)
+- [ ] Fewer than 2 installation-related issues opened per month
 - [ ] User-reported issues < 1 per month
 - [ ] Positive community feedback (measured by issue/PR sentiment analysis and community surveys)
 - [ ] Active community contributions (≥ 2 external contributors per quarter)
