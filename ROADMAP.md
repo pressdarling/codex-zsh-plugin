@@ -10,35 +10,35 @@ This roadmap outlines critical issues, improvements, and future development plan
 
 ### 🚨 Bug Fixes
 
-#### Issue #1: Incorrect Comment Header
+#### Issue #6: Incorrect Comment Header
 - **Location**: `codex.plugin.zsh:1`
 - **Problem**: Comment states "Autocompletion for the GitHub CLI (codex)" but should be "OpenAI Codex CLI"
 - **Impact**: Confusing for users and maintainers
 - **Priority**: Critical
 - **Effort**: 5 minutes
 
-#### Issue #2: Function Call Before Definition
+#### Issue #7: Function Call Before Definition
 - **Location**: `codex.plugin.zsh:14`
 - **Problem**: `codex_update_completions` called before being defined (line 26)
 - **Impact**: May cause undefined function errors in some ZSH configurations
 - **Priority**: High
 - **Effort**: 5 minutes (move function definition or defer call)
 
-#### Issue #3: Missing Directory Creation
+#### Issue #8: Missing Directory Creation
 - **Location**: `codex.plugin.zsh:7-8`
 - **Problem**: Plugin assumes `$ZSH_CACHE_DIR/completions` exists
 - **Impact**: Plugin fails silently if directory doesn't exist
 - **Priority**: High
 - **Effort**: 10 minutes
 
-#### Issue #4: Installation Path Errors
+#### Issue #9: Installation Path Errors
 - **Location**: `README.md:70,75,80`
 - **Problem**: Git clone commands target wrong directory path
 - **Impact**: Plugin won't be found by Oh My Zsh
 - **Priority**: High
 - **Effort**: 5 minutes
 
-#### Issue #5: Non-existent Install Script Reference
+#### Issue #10: Non-existent Install Script Reference
 - **Location**: `README.md:85`
 - **Problem**: References `tools/install.sh` which doesn't exist
 - **Impact**: Users can't use curl installation method
@@ -47,13 +47,13 @@ This roadmap outlines critical issues, improvements, and future development plan
 
 ### 🔧 Code Quality Issues
 
-#### Issue #6: No Error Handling
+#### Issue #11: No Error Handling
 - **Problem**: No error handling for failed commands or missing dependencies beyond initial check
 - **Impact**: Silent failures, poor user experience
 - **Priority**: Medium
 - **Effort**: 30 minutes
 
-#### Issue #7: Async Callback Issues
+#### Issue #12: Async Callback Issues
 - **Location**: `codex.plugin.zsh:38-39`
 - **Problem**: Async callback registration may not work as expected
 - **Impact**: Async functionality may not work properly
@@ -64,7 +64,7 @@ This roadmap outlines critical issues, improvements, and future development plan
 
 ### 📚 Documentation Improvements
 
-#### Issue #8: Inconsistent Documentation
+#### Issue #13: Inconsistent Documentation
 - **Problem**: Various typos, inconsistencies, and unclear instructions
 - **Examples**:
   - Line 109: "yuo relaly lvoe typing acucrately" (intentional humor but unprofessional)
@@ -72,13 +72,13 @@ This roadmap outlines critical issues, improvements, and future development plan
 - **Priority**: Medium
 - **Effort**: 2 hours
 
-#### Issue #9: Missing Usage Examples
+#### Issue #14: Missing Usage Examples
 - **Problem**: No concrete examples of how completions work
 - **Impact**: Users don't understand the value proposition
 - **Priority**: Medium
 - **Effort**: 1 hour
 
-#### Issue #10: Incomplete Troubleshooting
+#### Issue #15: Incomplete Troubleshooting
 - **Problem**: Limited troubleshooting guidance
 - **Impact**: Users struggle with issues
 - **Priority**: Low
@@ -88,7 +88,7 @@ This roadmap outlines critical issues, improvements, and future development plan
 
 ### 🏗️ Development Infrastructure
 
-#### Issue #11: No Test Suite
+#### Issue #16: No Test Suite
 - **Problem**: No tests for plugin functionality
 - **Impact**: Regressions likely, hard to verify fixes
 - **Priority**: High
@@ -98,7 +98,7 @@ This roadmap outlines critical issues, improvements, and future development plan
   - Integration tests for ZSH environment
   - Mock tests for external dependencies
 
-#### Issue #12: No CI/CD Pipeline
+#### Issue #17: No CI/CD Pipeline
 - **Problem**: No automated testing or deployment
 - **Impact**: Manual testing burden, deployment inconsistencies
 - **Priority**: High
@@ -108,7 +108,7 @@ This roadmap outlines critical issues, improvements, and future development plan
   - Multi-platform testing (macOS, Linux)
   - Automated linting and formatting
 
-#### Issue #13: Missing GitHub Templates
+#### Issue #18: Missing GitHub Templates
 - **Problem**: No issue/PR templates, contributing guidelines
 - **Impact**: Poor contributor experience, inconsistent reports
 - **Priority**: Medium
@@ -119,13 +119,13 @@ This roadmap outlines critical issues, improvements, and future development plan
   - CONTRIBUTING.md
   - CODE_OF_CONDUCT.md
 
-#### Issue #14: No Security Policy
+#### Issue #19: No Security Policy
 - **Problem**: No SECURITY.md or vulnerability reporting process
 - **Impact**: Unclear how to report security issues
 - **Priority**: Medium
 - **Effort**: 30 minutes
 
-#### Issue #15: No Formal Release Process
+#### Issue #20: No Formal Release Process
 - **Problem**: No standardized release procedures or versioning guidelines
 - **Impact**: Inconsistent releases, unclear versioning, missing changelogs
 - **Priority**: Medium
@@ -141,14 +141,14 @@ This roadmap outlines critical issues, improvements, and future development plan
 
 ### ✨ Enhanced Functionality
 
-#### Issue #16: Cross-Platform Notifications
+#### Issue #21: Cross-Platform Notifications
 - **Location**: `codex.plugin.zsh:31-35`
 - **Problem**: Notifications only work on macOS
 - **Enhancement**: Add Linux notification support (notify-send)
 - **Priority**: Medium
 - **Effort**: 1 hour
 
-#### Issue #17: Configuration Options
+#### Issue #22: Configuration Options
 - **Problem**: No user configuration options
 - **Enhancement**: Add configurable options for:
   - Notification preferences
@@ -158,13 +158,13 @@ This roadmap outlines critical issues, improvements, and future development plan
 - **Priority**: Low
 - **Effort**: 2-3 hours
 
-#### Issue #18: Debug Mode
+#### Issue #23: Debug Mode
 - **Problem**: No verbose/debug logging
 - **Enhancement**: Add debug mode for troubleshooting
 - **Priority**: Low
 - **Effort**: 1 hour
 
-#### Issue #19: Better Error Messages
+#### Issue #24: Better Error Messages
 - **Problem**: Generic error messages
 - **Enhancement**: More specific, actionable error messages
 - **Priority**: Low
@@ -174,7 +174,7 @@ This roadmap outlines critical issues, improvements, and future development plan
 
 ### 🏛️ Long-term Architecture
 
-#### Issue #20: Plugin Manager Compatibility
+#### Issue #25: Plugin Manager Compatibility
 - **Problem**: Only documented for Oh My Zsh
 - **Enhancement**: Add support documentation for:
   - Zinit
@@ -184,13 +184,13 @@ This roadmap outlines critical issues, improvements, and future development plan
 - **Priority**: Low
 - **Effort**: 2 hours
 
-#### Issue #21: Performance Monitoring
+#### Issue #26: Performance Monitoring
 - **Problem**: No performance metrics
 - **Enhancement**: Add timing and performance tracking
 - **Priority**: Low
 - **Effort**: 2 hours
 
-#### Issue #22: Update Mechanism
+#### Issue #27: Update Mechanism
 - **Problem**: No self-update capability
 - **Enhancement**: Add plugin self-update functionality
 - **Priority**: Low
@@ -202,43 +202,43 @@ This roadmap outlines critical issues, improvements, and future development plan
 **Target**: Immediate (1-2 weeks)
 **Focus**: Critical bug fixes and basic infrastructure
 
-- [ ] Fix incorrect comment header #1
-- [ ] Fix function call order #2
-- [ ] Add directory creation #3
-- [ ] Fix installation paths #4
-- [ ] Add basic error handling #6
-- [ ] Add test suite foundation #11
-- [ ] Add CI/CD pipeline #12
+- [ ] Fix incorrect comment header #6
+- [ ] Fix function call order #7
+- [ ] Add directory creation #8
+- [ ] Fix installation paths #9
+- [ ] Add basic error handling #11
+- [ ] Add test suite foundation #16
+- [ ] Add CI/CD pipeline #17
 
 ### Version 1.2.0 (Documentation & Infrastructure)
 **Target**: 1 month
 **Focus**: Complete documentation and development infrastructure
 
-- [ ] Create install script #5
-- [ ] Fix async callback issues #7
-- [ ] Improve documentation consistency #8
-- [ ] Add usage examples #9
-- [ ] Add GitHub templates #13
-- [ ] Add security policy #14
-- [ ] Formalize release process #15
+- [ ] Create install script #10
+- [ ] Fix async callback issues #12
+- [ ] Improve documentation consistency #13
+- [ ] Add usage examples #14
+- [ ] Add GitHub templates #18
+- [ ] Add security policy #19
+- [ ] Formalize release process #20
 
 ### Version 1.3.0 (Feature Enhancements)
 **Target**: 2-3 months
 **Focus**: Cross-platform support and user experience
 
-- [ ] Complete troubleshooting guide #10
-- [ ] Cross-platform notifications #16
-- [ ] Configuration options #17
-- [ ] Debug mode #18
-- [ ] Better error messages #19
+- [ ] Complete troubleshooting guide #15
+- [ ] Cross-platform notifications #21
+- [ ] Configuration options #22
+- [ ] Debug mode #23
+- [ ] Better error messages #24
 
 ### Version 2.0.0 (Architecture Improvements)
 **Target**: 6+ months
 **Focus**: Advanced features and architecture improvements
 
-- [ ] Plugin manager compatibility #20
-- [ ] Performance monitoring #21
-- [ ] Update mechanism #22
+- [ ] Plugin manager compatibility #25
+- [ ] Performance monitoring #26
+- [ ] Update mechanism #27
 - [ ] Advanced configuration system
 - [ ] Plugin ecosystem compatibility
 
