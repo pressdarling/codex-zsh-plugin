@@ -1,0 +1,112 @@
+version: 2
+updates:
+  # GitHub Actions - Automatically update actions used in workflows
+  # Uncomment and enable when GitHub Actions workflows are added
+  # - package-ecosystem: github-actions
+  #   directory: "/"
+  #   schedule:
+  #     interval: weekly
+  #     day: monday
+  #     time: "04:00"
+  #   assignees:
+  #     - pressdarling
+  #   labels:
+  #     - dependencies
+  #     - github-actions
+  #   commit-message:
+  #     prefix: "ci(deps):"
+  #     include: scope
+  #   pull-request-branch-name:
+  #     separator: "/"
+
+  # npm - Uncomment and enable if Node.js dependencies are added
+  # - package-ecosystem: npm
+  #   directory: "/"
+  #   schedule:
+  #     interval: weekly
+  #     day: monday
+  #     time: "04:00"
+  #   open-pull-requests-limit: 5
+  #   assignees:
+  #     - pressdarling
+  #   labels:
+  #     - dependencies
+  #     - npm
+  #   groups:
+  #     development-dependencies:
+  #       dependency-type: development
+  #     production-dependencies:
+  #       dependency-type: production
+  #   commit-message:
+  #     prefix: "chore(deps):"
+  #     include: scope
+  #   pull-request-branch-name:
+  #     separator: "/"
+  #   rebase-strategy: auto
+
+  # Python - Uncomment and enable if Python dependencies are added
+  # - package-ecosystem: pip
+  #   directory: "/"
+  #   schedule:
+  #     interval: weekly
+  #     day: monday
+  #     time: "04:00"
+  #   open-pull-requests-limit: 5
+  #   assignees:
+  #     - pressdarling
+  #   labels:
+  #     - dependencies
+  #     - python
+  #   commit-message:
+  #     prefix: "chore(deps):"
+  #     include: scope
+  #   pull-request-branch-name:
+  #     separator: "/"
+
+  # Docker - Uncomment and enable if Docker files are added
+  # - package-ecosystem: docker
+  #   directory: "/"
+  #   schedule:
+  #     interval: weekly
+  #     day: monday
+  #     time: "04:00"
+  #   open-pull-requests-limit: 5
+  #   assignees:
+  #     - pressdarling
+  #   labels:
+  #     - dependencies
+  #     - docker
+  #   commit-message:
+  #     prefix: "chore(docker):"
+  #     include: scope
+  #   pull-request-branch-name:
+  #     separator: "/"
+
+  # Terraform - Uncomment and enable if Terraform is used
+  # - package-ecosystem: terraform
+  #   directory: "/"
+  #   schedule:
+  #     interval: weekly
+  #     day: monday
+  #     time: "04:00"
+  #   open-pull-requests-limit: 5
+  #   assignees:
+  #     - pressdarling
+  #   labels:
+  #     - dependencies
+  #     - terraform
+  #   commit-message:
+  #     prefix: "chore(tf):"
+  #     include: scope
+  #   pull-request-branch-name:
+  #     separator: "/"
+
+# Note: This project is a ZSH shell plugin with no external package manager
+# dependencies. Dependabot configuration is set up and ready for when
+# dependencies are added (e.g., if GitHub Actions, Docker, or npm dependencies
+# are introduced). Currently, no ecosystems require monitoring.
+#
+# To enable an ecosystem:
+# 1. Uncomment the corresponding section above
+# 2. Commit and push changes
+# 3. GitHub will automatically enable Dependabot for that ecosystem
