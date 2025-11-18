@@ -202,43 +202,43 @@ This roadmap outlines critical issues, improvements, and future development plan
 **Target**: Immediate (1-2 weeks)
 **Focus**: Critical bug fixes and basic infrastructure
 
-- [ ] Fix incorrect comment header (#1)
-- [ ] Fix function call order (#2)
-- [ ] Add directory creation (#3)
-- [ ] Fix installation paths (#4)
-- [ ] Add basic error handling (#6)
-- [ ] Add test suite foundation (#11)
-- [ ] Add CI/CD pipeline (#12)
+- [ ] Fix incorrect comment header #1
+- [ ] Fix function call order #2
+- [ ] Add directory creation #3
+- [ ] Fix installation paths #4
+- [ ] Add basic error handling #6
+- [ ] Add test suite foundation #11
+- [ ] Add CI/CD pipeline #12
 
 ### Version 1.2.0 (Documentation & Infrastructure)
 **Target**: 1 month
 **Focus**: Complete documentation and development infrastructure
 
-- [ ] Create install script (#5)
-- [ ] Fix async callback issues (#7)
-- [ ] Improve documentation consistency (#8)
-- [ ] Add usage examples (#9)
-- [ ] Add GitHub templates (#13)
-- [ ] Add security policy (#14)
-- [ ] Formalize release process (#15)
+- [ ] Create install script #5
+- [ ] Fix async callback issues #7
+- [ ] Improve documentation consistency #8
+- [ ] Add usage examples #9
+- [ ] Add GitHub templates #13
+- [ ] Add security policy #14
+- [ ] Formalize release process #15
 
 ### Version 1.3.0 (Feature Enhancements)
 **Target**: 2-3 months
 **Focus**: Cross-platform support and user experience
 
-- [ ] Cross-platform notifications (#16)
-- [ ] Configuration options (#17)
-- [ ] Debug mode (#18)
-- [ ] Better error messages (#19)
-- [ ] Complete troubleshooting guide (#10)
+- [ ] Complete troubleshooting guide #10
+- [ ] Cross-platform notifications #16
+- [ ] Configuration options #17
+- [ ] Debug mode #18
+- [ ] Better error messages #19
 
 ### Version 2.0.0 (Architecture Improvements)
 **Target**: 6+ months
 **Focus**: Advanced features and architecture improvements
 
-- [ ] Plugin manager compatibility (#20)
-- [ ] Performance monitoring (#21)
-- [ ] Update mechanism (#22)
+- [ ] Plugin manager compatibility #20
+- [ ] Performance monitoring #21
+- [ ] Update mechanism #22
 - [ ] Advanced configuration system
 - [ ] Plugin ecosystem compatibility
 
