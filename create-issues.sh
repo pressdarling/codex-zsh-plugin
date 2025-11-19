@@ -25,7 +25,7 @@ echo "✅ GitHub CLI is ready"
 
 # Critical Issues (High Priority) - Bug Fixes
 
-echo "📝 Creating Issue #6: Incorrect Comment Header"
+echo "📝 Creating Issue #7: Incorrect Comment Header"
 gh issue create \
   --title "Fix incorrect comment header" \
   --body "**Priority:** Critical
@@ -44,7 +44,7 @@ Confusing for users and maintainers
   --label "bug,critical,good first issue" \
   --milestone "v1.1.0"
 
-echo "📝 Creating Issue #7: Function Call Before Definition"
+echo "📝 Creating Issue #8: Function Call Before Definition"
 gh issue create \
   --title "Fix function call order" \
   --body "**Priority:** High
@@ -64,7 +64,7 @@ May cause undefined function errors in some ZSH configurations
   --label "bug,high priority" \
   --milestone "v1.1.0"
 
-echo "📝 Creating Issue #8: Missing Directory Creation"
+echo "📝 Creating Issue #9: Missing Directory Creation"
 gh issue create \
   --title "Add directory creation" \
   --body "**Priority:** High
@@ -85,7 +85,7 @@ Plugin fails silently if directory doesn't exist
   --label "bug,high priority" \
   --milestone "v1.1.0"
 
-echo "📝 Creating Issue #9: Installation Path Errors"
+echo "📝 Creating Issue #10: Installation Path Errors"
 gh issue create \
   --title "Fix installation paths" \
   --body "**Priority:** High
@@ -105,7 +105,7 @@ Plugin won't be found by Oh My Zsh
   --label "bug,documentation,high priority" \
   --milestone "v1.1.0"
 
-echo "📝 Creating Issue #10: Non-existent Install Script Reference"
+echo "📝 Creating Issue #11: Non-existent Install Script Reference"
 gh issue create \
   --title "Create install script" \
   --body "**Priority:** High
@@ -127,7 +127,7 @@ Users can't use curl installation method
   --label "enhancement,high priority,installation" \
   --milestone "v1.2.0"
 
-echo "📝 Creating Issue #11: No Error Handling"
+echo "📝 Creating Issue #12: No Error Handling"
 gh issue create \
   --title "Add basic error handling" \
   --body "**Priority:** Medium
@@ -147,7 +147,7 @@ Silent failures, poor user experience
   --label "enhancement,error handling" \
   --milestone "v1.1.0"
 
-echo "📝 Creating Issue #12: Async Callback Issues"
+echo "📝 Creating Issue #13: Async Callback Issues"
 gh issue create \
   --title "Fix async callback issues" \
   --body "**Priority:** Medium
@@ -155,10 +155,13 @@ gh issue create \
 **Location:** \`codex.plugin.zsh:38-39\`
 
 **Problem**
-Async callback registration may not work as expected
+The async callback function \`codex_update_completions\` is passed to \`async_register_callback\` but may not fire reliably, particularly:
+- Potential race condition between worker start and callback registration
+- Callback function may not be properly scoped when called asynchronously
+- No verification that the callback actually executes successfully
 
 **Impact**
-Async functionality may not work properly
+Async completion updates may fail silently, leaving users with stale completions
 
 **Acceptance Criteria**
 - [ ] Test async callback functionality with zsh-async
@@ -170,7 +173,7 @@ Async functionality may not work properly
 
 # Documentation Issues
 
-echo "📝 Creating Issue #13: Inconsistent Documentation"
+echo "📝 Creating Issue #14: Inconsistent Documentation"
 gh issue create \
   --title "Improve documentation consistency" \
   --body "**Priority:** Medium
@@ -191,7 +194,7 @@ Various typos, inconsistencies, and unclear instructions
   --label "documentation,cleanup" \
   --milestone "v1.2.0"
 
-echo "📝 Creating Issue #14: Missing Usage Examples"
+echo "📝 Creating Issue #15: Missing Usage Examples"
 gh issue create \
   --title "Add usage examples" \
   --body "**Priority:** Medium
@@ -211,7 +214,7 @@ Users don't understand the value proposition
   --label "documentation,examples" \
   --milestone "v1.2.0"
 
-echo "📝 Creating Issue #15: Incomplete Troubleshooting"
+echo "📝 Creating Issue #16: Incomplete Troubleshooting"
 gh issue create \
   --title "Complete troubleshooting guide" \
   --body "**Priority:** Low
@@ -233,7 +236,7 @@ Users struggle with issues
 
 # Missing Infrastructure (High Priority)
 
-echo "📝 Creating Issue #16: No Test Suite"
+echo "📝 Creating Issue #17: No Test Suite"
 gh issue create \
   --title "Add test suite foundation" \
   --body "**Priority:** High
@@ -259,7 +262,7 @@ Regressions likely, hard to verify fixes
   --label "infrastructure,testing,high priority" \
   --milestone "v1.1.0"
 
-echo "📝 Creating Issue #17: No CI/CD Pipeline"
+echo "📝 Creating Issue #18: No CI/CD Pipeline"
 gh issue create \
   --title "Add CI/CD pipeline" \
   --body "**Priority:** High
@@ -285,7 +288,7 @@ Manual testing burden, deployment inconsistencies
   --label "infrastructure,ci/cd,high priority" \
   --milestone "v1.1.0"
 
-echo "📝 Creating Issue #18: Missing GitHub Templates"
+echo "📝 Creating Issue #19: Missing GitHub Templates"
 gh issue create \
   --title "Add GitHub templates" \
   --body "**Priority:** Medium
@@ -312,7 +315,7 @@ Poor contributor experience, inconsistent reports
   --label "infrastructure,documentation,community" \
   --milestone "v1.2.0"
 
-echo "📝 Creating Issue #19: No Security Policy"
+echo "📝 Creating Issue #20: No Security Policy"
 gh issue create \
   --title "Add security policy" \
   --body "**Priority:** Medium
@@ -332,7 +335,7 @@ Unclear how to report security issues
   --label "infrastructure,security" \
   --milestone "v1.2.0"
 
-echo "📝 Creating Issue #20: No Formal Release Process"
+echo "📝 Creating Issue #21: No Formal Release Process"
 gh issue create \
   --title "Formalize release process" \
   --body "**Priority:** Medium
@@ -362,7 +365,7 @@ Inconsistent releases, unclear versioning, missing changelogs
 
 # Feature Improvements (Medium-Low Priority)
 
-echo "📝 Creating Issue #21: Cross-Platform Notifications"
+echo "📝 Creating Issue #22: Cross-Platform Notifications"
 gh issue create \
   --title "Cross-platform notifications" \
   --body "**Priority:** Medium
@@ -384,7 +387,7 @@ Add Linux notification support (notify-send)
   --label "enhancement,cross-platform" \
   --milestone "v1.3.0"
 
-echo "📝 Creating Issue #22: Configuration Options"
+echo "📝 Creating Issue #23: Configuration Options"
 gh issue create \
   --title "Configuration options" \
   --body "**Priority:** Low
@@ -410,7 +413,7 @@ Add configurable options for:
   --label "enhancement,configuration" \
   --milestone "v1.3.0"
 
-echo "📝 Creating Issue #23: Debug Mode"
+echo "📝 Creating Issue #24: Debug Mode"
 gh issue create \
   --title "Debug mode" \
   --body "**Priority:** Low
@@ -431,7 +434,7 @@ Add debug mode for troubleshooting
   --label "enhancement,debugging" \
   --milestone "v1.3.0"
 
-echo "📝 Creating Issue #24: Better Error Messages"
+echo "📝 Creating Issue #25: Better Error Messages"
 gh issue create \
   --title "Better error messages" \
   --body "**Priority:** Low
@@ -454,7 +457,7 @@ More specific, actionable error messages
 
 # Architecture Improvements (Future)
 
-echo "📝 Creating Issue #25: Plugin Manager Compatibility"
+echo "📝 Creating Issue #26: Plugin Manager Compatibility"
 gh issue create \
   --title "Plugin manager compatibility" \
   --body "**Priority:** Low
@@ -479,7 +482,7 @@ Add support documentation for:
   --label "enhancement,documentation,compatibility" \
   --milestone "v2.0.0"
 
-echo "📝 Creating Issue #26: Performance Monitoring"
+echo "📝 Creating Issue #27: Performance Monitoring"
 gh issue create \
   --title "Performance monitoring" \
   --body "**Priority:** Low
@@ -500,7 +503,7 @@ Add timing and performance tracking
   --label "enhancement,performance" \
   --milestone "v2.0.0"
 
-echo "📝 Creating Issue #27: Update Mechanism"
+echo "📝 Creating Issue #28: Update Mechanism"
 gh issue create \
   --title "Update mechanism" \
   --body "**Priority:** Low
