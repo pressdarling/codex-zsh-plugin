@@ -180,7 +180,6 @@ This roadmap outlines critical issues, improvements, and future development plan
   - Zinit
   - Zplug
   - Antigen
-  - Manual installation
 - **Priority**: Low
 - **Effort**: 2 hours
 
