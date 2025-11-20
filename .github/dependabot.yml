@@ -1,23 +1,23 @@
 version: 2
 updates:
   # GitHub Actions - Automatically update actions used in workflows
-  # Uncomment and enable when GitHub Actions workflows are added
-  # - package-ecosystem: github-actions
-  #   directory: "/"
-  #   schedule:
-  #     interval: weekly
-  #     day: monday
-  #     time: "04:00"
-  #   assignees:
-  #     - pressdarling
-  #   labels:
-  #     - dependencies
-  #     - github-actions
-  #   commit-message:
-  #     prefix: "ci(deps):"
-  #     include: scope
-  #   pull-request-branch-name:
-  #     separator: "/"
+  # Enabled by default to ensure Dependabot configuration is valid.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+     time: "04:00"
+   assignees:
+     - pressdarling
+   labels:
+     - dependencies
+     - github-actions
+   commit-message:
+     prefix: "ci(deps):"
+     include: scope
+   pull-request-branch-name:
+     separator: "/"
 
   # npm - Uncomment and enable if Node.js dependencies are added
   # - package-ecosystem: npm
