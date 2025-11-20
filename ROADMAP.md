@@ -67,7 +67,7 @@ This roadmap outlines critical issues, improvements, and future development plan
 #### Issue #14: Inconsistent Documentation
 - **Problem**: Various typos, inconsistencies, and unclear instructions
 - **Examples**:
-  - Line 109: "yuo relaly lvoe typing acucrately" (intentional humor but unprofessional)
+  - Line 109: "yuo relaly lvoe typing acucrately" (intentional humour but unprofessional)
   - Line 98: Inconsistent tone throughout
 - **Priority**: Medium
 - **Effort**: 2 hours
@@ -126,7 +126,7 @@ This roadmap outlines critical issues, improvements, and future development plan
 - **Effort**: 30 minutes
 
 #### Issue #21: No Formal Release Process
-- **Problem**: No standardized release procedures or versioning guidelines
+- **Problem**: No standardised release procedures or versioning guidelines
 - **Impact**: Inconsistent releases, unclear versioning, missing changelogs
 - **Priority**: Medium
 - **Effort**: 1 hour
@@ -219,7 +219,7 @@ This roadmap outlines critical issues, improvements, and future development plan
 - [ ] Add usage examples #15
 - [ ] Add GitHub templates #19
 - [ ] Add security policy #20
-- [ ] Formalize release process #21
+- [ ] Formalise release process #21
 
 ### Version 1.3.0 (Feature Enhancements)
 **Target**: 2-3 months
