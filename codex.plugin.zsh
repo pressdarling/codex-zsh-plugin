@@ -43,6 +43,7 @@ fi
 _codex_async_callback() {
   # Reload completions after async update
   autoload -Uz _codex
+  _comps[codex]=_codex
 }
 
 # If the completion file exists, load it
