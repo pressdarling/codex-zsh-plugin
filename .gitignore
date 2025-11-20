@@ -122,3 +122,7 @@ zsdoc/data
 !/tests/_output/.gitkeep
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,sublimetext,zsh,git,dotenv
+
+# All subdirectories (except .github)
+*/
+!.github/
