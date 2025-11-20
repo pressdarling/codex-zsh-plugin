@@ -47,5 +47,6 @@ _codex_async_callback() {
 
 # If the completion file exists, load it
 if [[ -f "$_codex_completion_file" ]]; then
-  source "$_codex_completion_file"
+  autoload -Uz _codex
+  _comps[codex]=_codex
 fi
