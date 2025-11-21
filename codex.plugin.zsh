@@ -22,10 +22,14 @@ _codex_compute_current_hash() {
   codex_path="$(command -v codex)" || return 1
 
   if command -v sha256sum &> /dev/null; then
-    sha256sum "$codex_path" | cut -d' ' -f1
+    local output
+    output="$(sha256sum "$codex_path")" || return 1
+    echo "${output%% *}"
     return 0
   elif command -v shasum &> /dev/null; then
-    shasum -a 256 "$codex_path" | cut -d' ' -f1
+    local output
+    output="$(shasum -a 256 "$codex_path")" || return 1
+    echo "${output%% *}"
     return 0
   fi
   return 1
@@ -53,7 +57,8 @@ if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_store
     async_register_callback codex_worker _codex_async_callback
   else
     # Fall back to background process
-    (codex_update_completions && echo "$(_codex_compute_current_hash)" >| "$_codex_hash_file") &|
+    local hash_to_write="$_codex_current_hash"
+    (codex_update_completions && new_hash="$(_codex_compute_current_hash)" && echo "$new_hash" >| "$_codex_hash_file") &|
   fi
 fi
 
@@ -68,6 +73,7 @@ _codex_async_callback() {
     updated_hash="$(_codex_compute_current_hash)" || return
 
     echo "$updated_hash" >| "$_codex_hash_file"
+    typeset -g -A _comps
     autoload -Uz _codex
     _comps[codex]=_codex
   fi
@@ -75,6 +81,7 @@ _codex_async_callback() {
 
 # If the completion file exists, load it
 if [[ -f "$_codex_completion_file" ]]; then
+  typeset -g -A _comps
   autoload -Uz _codex
   _comps[codex]=_codex
 fi
