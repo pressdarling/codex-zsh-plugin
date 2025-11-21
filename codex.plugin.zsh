@@ -40,7 +40,6 @@ codex_update_completions() {
     _codex_notify "Codex completions updated."
     return 0
   fi
-  return 1
 }
 
 _codex_current_hash="$(_codex_compute_current_hash)"
