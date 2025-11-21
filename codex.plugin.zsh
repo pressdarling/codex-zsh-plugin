@@ -21,13 +21,12 @@ _codex_compute_current_hash() {
   local codex_path
   codex_path="$(command -v codex)" || return 1
 
+  local output
   if command -v sha256sum &> /dev/null; then
-    local output
     output="$(sha256sum "$codex_path")" || return 1
     echo "${output%% *}"
     return 0
   elif command -v shasum &> /dev/null; then
-    local output
     output="$(shasum -a 256 "$codex_path")" || return 1
     echo "${output%% *}"
     return 0
