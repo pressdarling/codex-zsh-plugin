@@ -81,6 +81,5 @@ if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_store
       fi
     } &|
   fi
-else
-  _codex_register_completions
 fi
+_codex_register_completions
