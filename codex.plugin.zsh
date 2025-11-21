@@ -39,6 +39,7 @@ _codex_register_completions() {
   else
     return 1
   fi
+  return 1
 }
 
 codex_update_completions() {
