@@ -28,10 +28,7 @@ codex_update_completions() {
 
 _codex_notify() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    local message="$1"
-    # Escape double quotes for AppleScript
-    local safe_message="${message//\"/\\\"}"
-    osascript -e 'on run argv' -e 'display notification (item 1 of argv) with title "Oh My Zsh"' -e 'end run' -- "$safe_message"
+    osascript -e 'on run argv' -e 'display notification (item 1 of argv) with title "Oh My Zsh"' -e 'end run' -- "$1"
   fi
 }
 
