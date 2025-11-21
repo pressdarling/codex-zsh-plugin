@@ -39,7 +39,10 @@ _codex_register_completions() {
 }
 
 codex_update_completions() {
-  if ! codex completion zsh >| "$_codex_completion_file"; then
+  if codex completion zsh >| "$_codex_completion_file"; then
+    _codex_notify "Codex completions updated."
+    return 0
+  else
     return 1
   fi
 }
