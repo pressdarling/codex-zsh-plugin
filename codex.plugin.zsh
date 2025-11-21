@@ -68,6 +68,7 @@ _codex_async_callback() {
     updated_hash="$(_codex_compute_current_hash)" || return
 
     echo "$updated_hash" >| "$_codex_hash_file"
+    typeset -g -A _comps
     autoload -Uz _codex
     _comps[codex]=_codex
   fi
@@ -75,6 +76,7 @@ _codex_async_callback() {
 
 # If the completion file exists, load it
 if [[ -f "$_codex_completion_file" ]]; then
+  typeset -g -A _comps
   autoload -Uz _codex
   _comps[codex]=_codex
 fi
