@@ -39,7 +39,9 @@ _codex_register_completions() {
 }
 
 codex_update_completions() {
-  if codex completion zsh >| "$_codex_completion_file"; then
+  if [[ -f "$_codex_completion_file" ]]; then
+    autoload -Uz _codex
+    _comps[codex]=_codex
     _codex_notify "Codex completions updated."
     return 0
   else
