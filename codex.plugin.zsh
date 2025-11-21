@@ -107,7 +107,7 @@ _codex_async_callback() {
   # Only update hash and reload completions on success (exit code 0)
   if (( exit_code == 0 )); then
     local updated_hash
-        updated_hash="$(_codex_hash_for_codex)"
+    updated_hash="$(_codex_hash_for_codex)"
     [[ -n "$updated_hash" ]] || return
 
     echo "$updated_hash" >| "$_codex_hash_file"
