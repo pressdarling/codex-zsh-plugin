@@ -31,6 +31,8 @@ _codex_compute_current_hash() {
     output="$(shasum -a 256 "$codex_path")" || return 1
     echo "${output%% *}"
     return 0
+  else
+    return 1
   fi
 }
 
