@@ -67,22 +67,17 @@ Then, clone the repository into your `$ZSH_CUSTOM/plugins` directory:
 
 ```sh
 # with HTTPS:
-git clone https://github.com/pressdarling/codex-zsh-plugin.git $ZSH_CUSTOM/plugins
+git clone https://github.com/pressdarling/codex-zsh-plugin.git $ZSH_CUSTOM/plugins/codex
 ```
 
 ```sh
 # or with SSH:
-git clone git@github.com/pressdarling/codex-zsh-plugin.git $ZSH_CUSTOM/plugins
+git clone git@github.com:pressdarling/codex-zsh-plugin.git $ZSH_CUSTOM/plugins/codex
 ```
 
 ```sh
 # or with gh CLI:
-gh repo clone pressdarling/codex-zsh-plugin $ZSH_CUSTOM/plugins
-```
-
-```sh
-# or with curl:
-curl -L https://raw.githubusercontent.com/pressdarling/codex-zsh-plugin/main/tools/install.sh | bash -s -- --path $ZSH_CUSTOM/plugins
+gh repo clone pressdarling/codex-zsh-plugin $ZSH_CUSTOM/plugins/codex
 ```
 
 Then, restart your terminal or source your `~/.zshrc` file:
