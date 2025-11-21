@@ -49,7 +49,8 @@ _codex_async_callback() {
   local _job=$1 _status=$2
 
   if [[ ${_status:-1} -eq 0 && -f "$_codex_completion_file" ]]; then
-    echo "$_codex_current_hash" >| "$_codex_hash_file"
+    local _current_hash="$(_codex_hash_for_codex)"
+    echo "$_current_hash" >| "$_codex_hash_file"
     _codex_register_completions
   fi
 }
