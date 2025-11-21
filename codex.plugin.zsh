@@ -39,16 +39,6 @@ _codex_register_completions() {
   else
     return 1
   fi
-
-  "${hash_cmd[@]}" "$(command -v codex)" | cut -d' ' -f1
-}
-
-_codex_register_completions() {
-  if [[ -f "$_codex_completion_file" ]]; then
-    typeset -g -A _comps
-    autoload -Uz _codex
-    _comps[codex]=_codex
-  fi
 }
 
 codex_update_completions() {
