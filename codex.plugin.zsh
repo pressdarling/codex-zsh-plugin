@@ -32,7 +32,6 @@ _codex_compute_current_hash() {
     echo "${output%% *}"
     return 0
   fi
-  return 1
 }
 
 codex_update_completions() {
