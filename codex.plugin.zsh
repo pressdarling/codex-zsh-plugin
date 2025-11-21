@@ -56,8 +56,11 @@ fi
 
 # Callback for async completion
 _codex_async_callback() {
-  # Reload completions after async update
-  if [[ -f "$_codex_completion_file" ]]; then
+  # The callback receives: worker_name, job_name, exit_code
+  local exit_code=$3
+
+  # Only update hash and reload completions on success (exit code 0)
+  if (( exit_code == 0 )); then
     echo "$_codex_current_hash" >| "$_codex_hash_file"
     autoload -Uz _codex
     _comps[codex]=_codex
