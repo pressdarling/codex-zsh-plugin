@@ -97,7 +97,12 @@ fi
 # Callback for async completion
 _codex_async_callback() {
   # The callback receives: worker_name, job_name, return_code, output, execution_time, error_output
+  local worker_name=$1
+  local job_name=$2
   local exit_code=$3
+  local output=$4
+  local execution_time=$5
+  local error_output=$6
 
   # Only update hash and reload completions on success (exit code 0)
   if (( exit_code == 0 )); then
