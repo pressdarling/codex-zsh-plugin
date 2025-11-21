@@ -117,9 +117,47 @@ You can also manually trigger completions by typing `codex` followed by a space 
 
 If you encounter issues with the plugin, here are some common troubleshooting steps:
 
-1. **Check Dependencies:** Ensure that the `codex` CLI is installed and available in your `$PATH`. You can verify this by running `codex --version`.
-2. **Update the Plugin:** If you have an outdated version of the plugin, run `git pull` in the plugin directory to get the latest changes.
-3. **Check for Errors:** Look for any error messages in your terminal when you try to use the plugin. If you see an error about missing dependencies, follow the instructions provided by the plugin. You can get *extremely* detailed logs for all zsh plugins by running `zsh -xv` in your terminal.
+### Common Error Scenarios and Solutions
+
+1.  **`codex` command not found:** If you see an error message like `codex: command not found`, it means the `codex` CLI is not installed or not in your `$PATH`.
+    *   **Solution:** Install the `codex` CLI using Homebrew: `brew install codex`. If it's already installed, ensure that your `$PATH` includes the directory where Homebrew installs binaries (usually `/usr/local/bin` or `/opt/homebrew/bin`).
+
+2.  **Completions not working:** If completions are not appearing when you press `Tab` after typing `codex`, there might be an issue with the completion cache.
+    *   **Solution:** Manually regenerate the completions by running the following command:
+        ```sh
+        codex completion zsh >| "$ZSH_CACHE_DIR/completions/_codex"
+        ```
+        Then, restart your terminal.
+
+3.  **Notifications not appearing:** If you're on macOS and not receiving notifications when completions are updated, there might be an issue with your system's notification settings.
+    *   **Solution:** Make sure that your terminal application has permission to display notifications in your macOS System Settings.
+
+### Debug Mode Instructions
+
+To enable debug mode and get detailed logs for all zsh plugins, you can run `zsh -xv` in your terminal. This will print a lot of information, but it can be helpful for identifying the source of the problem.
+
+You can also check the plugin's cache files for any errors:
+
+```sh
+# View the completion file
+cat "$ZSH_CACHE_DIR/completions/_codex"
+
+# View the hash file
+cat "$ZSH_CACHE_DIR/completions/_codex.hash"
+```
+
+### Reporting Issues
+
+If you've tried the troubleshooting steps above and are still having issues, please open an issue on the [GitHub repository](https://github.com/pressdarling/codex-zsh-plugin/issues).
+
+When reporting an issue, please include the following information:
+
+*   **A clear and concise description of the problem.**
+*   **The output of `codex --version`.**
+*   **The output of `zsh --version`.**
+*   **The contents of your `~/.zshrc` file (or a link to it).**
+*   **Any error messages you're seeing in your terminal.**
+*   **Steps to reproduce the issue.**
 
 ## License
 This plugin is dual-licensed under the [MIT License](https://opensource.org/license/mit/) and [The Unlicense](https://unlicense.org/). You can choose either license for your use.
