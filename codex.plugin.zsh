@@ -74,7 +74,7 @@ _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
 
 # Check if hash generation succeeded
 if [[ -z "$_codex_current_hash" ]]; then
-  _codex_notify "Could not generate hash for codex binary. Completions will not be updated."
+  _codex_notify "Could not generate hash for codex binary. Completions will not be managed."
   # Still load existing completions if available
   if [[ -f "$_codex_completion_file" ]]; then
     autoload -Uz _codex
