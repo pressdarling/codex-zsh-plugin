@@ -101,8 +101,8 @@ if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_store
     async_job codex_worker codex_update_completions
     async_register_callback codex_worker _codex_async_callback
   else
-    # Fall back to background process
-    _codex_update_and_save_hash &|
+    # Fall back to synchronous update when async not available
+    _codex_update_and_save_hash
   fi
 fi
 
