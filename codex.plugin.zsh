@@ -82,19 +82,6 @@ if [[ -z "$_codex_current_hash" ]]; then
   return
 fi
 
-_codex_async_callback() {
-  local _job=$1 _status=$2
-
-  if [[ ${_status:-1} -eq 0 && -s "$_codex_completion_file" ]]; then
-    local _current_hash="$(_codex_hash_for_codex)"
-    if [[ -n "$_current_hash" ]]; then
-      echo "$_current_hash" >| "$_codex_hash_file"
-      _codex_notify "Codex completions updated."
-      _codex_register_completions
-    fi
-  fi
-}
-
 _codex_update_and_save_hash() {
   if codex_update_completions; then
     local new_hash
