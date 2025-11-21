@@ -20,9 +20,10 @@ codex_update_completions() {
   local completion_file="$2"
   local hash_file="$3"
   mkdir -p "$(dirname "$completion_file")"
-  codex completion zsh >| "$completion_file"
-  echo "$new_hash" >| "$hash_file"
-  _codex_notify "Codex completions updated."
+  if codex completion zsh >| "$completion_file"; then
+    echo "$new_hash" >| "$hash_file"
+    _codex_notify "Codex completions updated."
+  fi
 }
 
 _codex_notify() {
