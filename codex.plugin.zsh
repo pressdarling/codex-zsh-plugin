@@ -82,4 +82,7 @@ if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_store
     } &|
   fi
 fi
+
+# If the completion file exists, load it
+_codex_register_completions
 _codex_register_completions
