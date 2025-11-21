@@ -26,6 +26,7 @@ _codex_compute_current_hash() {
   elif command -v shasum &> /dev/null; then
     shasum -a 256 "$codex_path" | cut -d' ' -f1
   fi
+  return 1
 }
 
 codex_update_completions() {
