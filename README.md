@@ -110,16 +110,93 @@ Hell, you can even peck at your keyboard manually like some kind of caveman, but
 
 ## Usage
 
-Once the plugin is installed, you can use the `codex` command as usual. The plugin will automatically handle completions for you.
-You can also manually trigger completions by typing `codex` followed by a space and then pressing `Tab`. The plugin will generate completions based on the current context.
+Once the plugin is installed, completions will be available automatically.
+
+### Before
+
+Without this plugin, you would have to manually type out every command and argument:
+
+```sh
+codex complete "write a python function to find the nth fibonacci number"
+```
+
+### After
+
+With this plugin, you can simply type `codex` and press `<Tab>` to see all available commands.
+
+For example, to complete the same command as above, you could type:
+
+```sh
+codex c<Tab> # expands to "codex complete"
+```
+
+Then, you can add your prompt:
+```sh
+codex complete "write a python function to find the nth fibonacci number"
+```
+
+The plugin also provides completions for all of `codex`'s flags and arguments, saving you time and preventing typos.
+
+## Examples
+
+Here are some examples of how the completions work in practice.
+
+### Command Completion
+
+Typing `codex ` and pressing `<Tab>` will show you all available commands:
+
+```
+$ codex <Tab>
+complete    -- Generate completions for a prompt
+edit        -- Edit a file with a prompt
+help        -- Show help for a command
+history     -- Show the history of prompts
+login       -- Log in to the Codex service
+logout      -- Log out of the Codex service
+status      -- Show the status of the Codex service
+```
+
+### Flag Completion
+
+The plugin also provides completions for flags. For example, if you type `codex complete --` and press `<Tab>`, you'll see all the available flags for the `complete` command:
+
+```
+$ codex complete --<Tab>
+--engine         -- The engine to use for the completion
+--help           -- Show help for the command
+--json           -- Output the completion in JSON format
+--max-tokens     -- The maximum number of tokens to generate
+--stop           -- The stop sequence for the completion
+--temperature    -- The temperature to use for the completion
+--user           -- The user to generate the completion for
+```
+
+### Argument Completion
+
+Some flags require arguments, and the plugin can help with those too. For example, the `--engine` flag for the `complete` command requires an engine name. If you type `codex complete --engine ` and press `<Tab>`, you'll see a list of available engines:
+
+```
+$ codex complete --engine <Tab>
+davinci
+curie
+babbage
+ada
+```
 
 ## Troubleshooting
 
 If you encounter issues with the plugin, here are some common troubleshooting steps:
 
-1. **Check Dependencies:** Ensure that the `codex` CLI is installed and available in your `$PATH`. You can verify this by running `codex --version`.
-2. **Update the Plugin:** If you have an outdated version of the plugin, run `git pull` in the plugin directory to get the latest changes.
-3. **Check for Errors:** Look for any error messages in your terminal when you try to use the plugin. If you see an error about missing dependencies, follow the instructions provided by the plugin. You can get *extremely* detailed logs for all zsh plugins by running `zsh -xv` in your terminal.
+1.  **Check Dependencies:** Ensure that the `codex` CLI is installed and available in your `$PATH`. You can verify this by running `codex --version`.
+2.  **Update the Plugin:** If you have an outdated version of the plugin, run `git pull` in the plugin directory to get the latest changes.
+3.  **Check for Errors:** Look for any error messages in your terminal when you try to use the plugin. If you see an error about missing dependencies, follow the instructions provided by the plugin. You can get *extremely* detailed logs for all zsh plugins by running `zsh -xv` in your terminal.
+4.  **Completions Not Working:** If completions are not showing up, try clearing the cache and regenerating them:
+
+    ```sh
+    rm $ZSH_CACHE_DIR/_codex
+    exec zsh
+    ```
+5.  **"command not found: codex"**: If you see this error, it means the `codex` CLI tool is not in your `$PATH`. Make sure you have installed it correctly and that its location is in your `$PATH`. If you installed it with Homebrew, the default location is usually `/usr/local/bin`, which should be in your `$PATH` already.
 
 ## License
 This plugin is dual-licensed under the [MIT License](https://opensource.org/license/mit/) and [The Unlicense](https://unlicense.org/). You can choose either license for your use.
