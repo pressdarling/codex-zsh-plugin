@@ -35,19 +35,38 @@ _codex_register_completions() {
     typeset -g -A _comps
     autoload -Uz _codex
     _comps[codex]=_codex
-  fi
-}
-
-codex_update_completions() {
-  if [[ -f "$_codex_completion_file" ]]; then
-    autoload -Uz _codex
-    _comps[codex]=_codex
-    _codex_notify "Codex completions updated."
     return 0
   else
     return 1
   fi
 }
+
+codex_update_completions() {
+  codex completion zsh >| "$_codex_completion_file"
+  _codex_register_completions
+  _codex_notify "Codex completions updated."
+}
+
+_codex_update_and_save_hash() {
+  if codex_update_completions; then
+    local new_hash
+    new_hash=$(_codex_hash_for_codex)
+    if [[ -n "$new_hash" ]]; then
+      echo "$new_hash" >| "$_codex_hash_file"
+    fi
+  fi
+}
+
+_codex_current_hash="$(_codex_hash_for_codex)"
+_codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
+
+# Check if hash generation succeeded
+if [[ -z "$_codex_current_hash" ]]; then
+  _codex_notify "Could not generate hash for codex binary. Completions will not be managed."
+  # Still load existing completions if available
+  _codex_register_completions
+  return
+fi
 
 _codex_async_callback() {
   local _job=$1 _status=$2
@@ -61,27 +80,6 @@ _codex_async_callback() {
     fi
   fi
 }
-
-_codex_update_and_save_hash() {
-  if codex_update_completions; then
-    local new_hash
-    new_hash="$(_codex_hash_for_codex)" && [[ -n "$new_hash" ]] && echo "$new_hash" >| "$_codex_hash_file"
-  fi
-}
-
-_codex_current_hash="$(_codex_hash_for_codex)"
-_codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
-
-# Check if hash generation succeeded
-if [[ -z "$_codex_current_hash" ]]; then
-  _codex_notify "Could not generate hash for codex binary. Completions will not be managed."
-  # Still load existing completions if available
-  if [[ -f "$_codex_completion_file" ]]; then
-    autoload -Uz _codex
-    _comps[codex]=_codex
-  fi
-  return
-fi
 
 # Check if we need to regenerate completions
 if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
@@ -104,11 +102,11 @@ _codex_async_callback() {
   # Only update hash and reload completions on success (exit code 0)
   if (( exit_code == 0 )); then
     local updated_hash
-    updated_hash="$(_codex_hash_for_codex)" || return
+        updated_hash="$(_codex_hash_for_codex)"
+    [[ -n "$updated_hash" ]] || return
 
     echo "$updated_hash" >| "$_codex_hash_file"
-    autoload -Uz _codex
-    _comps[codex]=_codex
+    _codex_register_completions
   fi
 }
 
