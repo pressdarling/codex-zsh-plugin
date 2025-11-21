@@ -22,7 +22,10 @@ The combination of these two issues results in a poor user experience, with a sl
 The fix involved refactoring the script to address both issues:
 
 1.  **Eliminate Synchronous Call:** The initial, synchronous call to `codex_update_completions` was removed.
-2.  **Consolidate Update Logic:** The logic for updating completions is now consolidated into a single `if` block. The check `[[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]` is now used to decide whether to trigger the update.
+2.  **Consolidate Update Logic:** The logic for updating completions is now consolidated into a single `if` block. The update is triggered only if:
+    - The completion file does not exist, **or**
+    - The hash of the codex binary can be computed (i.e., shasum succeeds) **and** the current hash does not match the stored hash.
+    Otherwise, no update is performed. This ensures the update logic gracefully handles cases where shasum is unavailable or fails.
 3.  **Ensure Asynchronous Execution:** The update is now triggered only when necessary, and it is always run asynchronously (using `zsh-async` if available, or a background process otherwise).
 4.  **Code Cleanup:** The functions were moved to the top of the file for better readability, and the logic for storing the new hash was moved into the `codex_update_completions` function to ensure it's only written when an update actually occurs.
 
