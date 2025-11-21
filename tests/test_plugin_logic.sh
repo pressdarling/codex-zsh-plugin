@@ -88,6 +88,8 @@ fi
 echo "Running Test 1: Initial Completion Generation"
 unset -f _codex &>/dev/null
 typeset -g -A _comps; _comps=()
+_codex_completion_file="$ZSH_CACHE_DIR/completions/_codex"
+_codex_hash_file="$ZSH_CACHE_DIR/completions/_codex.hash"
 rm -f "$_codex_completion_file" "$_codex_hash_file"
 
 source "${0:A:h}/../codex.plugin.zsh"
