@@ -85,4 +85,3 @@ fi
 
 # If the completion file exists, load it
 _codex_register_completions
-_codex_register_completions
