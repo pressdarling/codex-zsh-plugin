@@ -4,6 +4,12 @@ if (( ! $+commands[codex] )); then
   return
 fi
 
+# Ensure the completions directory exists
+mkdir -p "$ZSH_CACHE_DIR/completions"
+
+_codex_completion_file="$ZSH_CACHE_DIR/completions/_codex"
+_codex_hash_file="$ZSH_CACHE_DIR/completions/_codex.hash"
+
 # Define helper functions first
 _codex_notify() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -11,18 +17,26 @@ _codex_notify() {
   fi
 }
 
-codex_update_completions() {
-  codex completion zsh >| "$_codex_completion_file"
-  _codex_notify "Codex completions updated."
+_codex_compute_current_hash() {
+  local codex_path
+  codex_path="$(command -v codex)" || return 1
+
+  if command -v sha256sum &> /dev/null; then
+    sha256sum "$codex_path" | cut -d' ' -f1
+  elif command -v shasum &> /dev/null; then
+    shasum -a 256 "$codex_path" | cut -d' ' -f1
+  fi
 }
 
-# Ensure the completions directory exists
-mkdir -p "$ZSH_CACHE_DIR/completions"
+codex_update_completions() {
+  if codex completion zsh >| "$_codex_completion_file"; then
+    _codex_notify "Codex completions updated."
+    return 0
+  fi
+  return 1
+}
 
-_codex_completion_file="$ZSH_CACHE_DIR/completions/_codex"
-_codex_hash_file="$ZSH_CACHE_DIR/completions/_codex.hash"
-
-_codex_current_hash="$(command -v codex | xargs shasum -a 256 | cut -d' ' -f1)"
+_codex_current_hash="$(_codex_compute_current_hash)"
 _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
 
 # Check if we need to regenerate completions
@@ -34,16 +48,20 @@ if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_store
     async_register_callback codex_worker _codex_async_callback
   else
     # Fall back to background process
-    codex_update_completions &|
+    if codex_update_completions; then
+      echo "$_codex_current_hash" >| "$_codex_hash_file"
+    fi
   fi
-  echo "$_codex_current_hash" >| "$_codex_hash_file"
 fi
 
 # Callback for async completion
 _codex_async_callback() {
   # Reload completions after async update
-  autoload -Uz _codex
-  _comps[codex]=_codex
+  if [[ -f "$_codex_completion_file" ]]; then
+    echo "$_codex_current_hash" >| "$_codex_hash_file"
+    autoload -Uz _codex
+    _comps[codex]=_codex
+  fi
 }
 
 # If the completion file exists, load it
