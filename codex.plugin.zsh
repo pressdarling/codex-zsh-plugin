@@ -36,6 +36,7 @@ _codex_register_completions() {
     autoload -Uz _codex
     _comps[codex]=_codex
   fi
+  return 1
 }
 
 codex_update_completions() {
