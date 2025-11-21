@@ -57,6 +57,7 @@ if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_store
     async_register_callback codex_worker _codex_async_callback
   else
     # Fall back to background process
+    local hash_to_write="$_codex_current_hash"
     (codex_update_completions && new_hash="$(_codex_compute_current_hash)" && echo "$new_hash" >| "$_codex_hash_file") &|
   fi
 fi
