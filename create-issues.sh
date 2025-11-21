@@ -58,37 +58,43 @@ done
 echo ""
 echo "Creating project labels..."
 
-declare -A LABELS=(
-    ["jules"]="0052CC:Jules project identifier - added to all issues for tracking"
-    ["bug"]="d73a4a:Something isn't working"
-    ["critical"]="b60205:Highest priority - needs immediate attention"
-    ["high priority"]="d93f0b:High priority issues that should be addressed soon"
-    ["good first issue"]="7057ff:Good for newcomers"
-    ["enhancement"]="a2eeef:New feature or request"
-    ["documentation"]="0075ca:Improvements or additions to documentation"
-    ["installation"]="e4e669:Related to plugin installation process"
-    ["error handling"]="f9d0c4:Improvements to error handling and user feedback"
-    ["async"]="c5def5:Related to asynchronous operations"
-    ["testing"]="c2e0c6:Related to testing infrastructure"
-    ["infrastructure"]="5319e7:Project infrastructure and tooling"
-    ["ci/cd"]="1d76db:Continuous integration and deployment"
-    ["community"]="ff9500:Community management and contributor experience"
-    ["security"]="d4edda:Security-related improvements"
-    ["release management"]="fbca04:Release processes and versioning"
-    ["cross-platform"]="bfe5bf:Cross-platform compatibility"
-    ["configuration"]="e1f5fe:User configuration options"
-    ["debugging"]="f7c6c7:Debugging tools and capabilities"
-    ["user experience"]="e99695:User experience improvements"
-    ["compatibility"]="c5def5:Compatibility with other tools"
-    ["performance"]="0e8a16:Performance optimizations"
-    ["update system"]="b794f4:Self-update mechanisms"
-    ["cleanup"]="ffeaa7:Code cleanup and refactoring"
-    ["examples"]="d4edda:Documentation examples and samples"
-    ["troubleshooting"]="fbca04:Troubleshooting guides and help"
+# Define labels as a list of label_name:color:description entries
+LABEL_DEFINITIONS=(
+    "jules:0052CC:Jules project identifier - added to all issues for tracking"
+    "bug:d73a4a:Something isn't working"
+    "critical:b60205:Highest priority - needs immediate attention"
+    "high priority:d93f0b:High priority issues that should be addressed soon"
+    "good first issue:7057ff:Good for newcomers"
+    "enhancement:a2eeef:New feature or request"
+    "documentation:0075ca:Improvements or additions to documentation"
+    "installation:e4e669:Related to plugin installation process"
+    "error handling:f9d0c4:Improvements to error handling and user feedback"
+    "async:c5def5:Related to asynchronous operations"
+    "testing:c2e0c6:Related to testing infrastructure"
+    "infrastructure:5319e7:Project infrastructure and tooling"
+    "ci/cd:1d76db:Continuous integration and deployment"
+    "community:ff9500:Community management and contributor experience"
+    "security:d4edda:Security-related improvements"
+    "release management:fbca04:Release processes and versioning"
+    "cross-platform:bfe5bf:Cross-platform compatibility"
+    "configuration:e1f5fe:User configuration options"
+    "debugging:f7c6c7:Debugging tools and capabilities"
+    "user experience:e99695:User experience improvements"
+    "compatibility:c5def5:Compatibility with other tools"
+    "performance:0e8a16:Performance optimizations"
+    "update system:b794f4:Self-update mechanisms"
+    "cleanup:ffeaa7:Code cleanup and refactoring"
+    "examples:d4edda:Documentation examples and samples"
+    "troubleshooting:fbca04:Troubleshooting guides and help"
 )
 
-for label_name in "${!LABELS[@]}"; do
-    IFS=':' read -r color description <<< "${LABELS[$label_name]}"
+for label_def in "${LABEL_DEFINITIONS[@]}"; do
+    # Split on first two colons only (label name can have spaces, description can have colons)
+    label_name="${label_def%%:*}"
+    temp="${label_def#*:}"
+    color="${temp%%:*}"
+    description="${temp#*:}"
+
     if gh api "repos/:owner/:repo/labels" --jq ".[].name" 2>/dev/null | grep -q "^${label_name}$"; then
         echo "   Label '${label_name}' already exists"
     else
@@ -108,7 +114,7 @@ echo ""
 
 # Critical Issues (High Priority) - Bug Fixes
 
-echo "Creating Issue #7: Incorrect Comment Header"
+echo "Creating Issue #16: Incorrect Comment Header"
 gh issue create \
   --title "Fix incorrect comment header" \
   --body "**Priority:** Critical
@@ -127,7 +133,7 @@ Confusing for users and maintainers
   --label "jules,bug,critical,good first issue" \
   --milestone "v1.1.0"
 
-echo "Creating Issue #8: Function Call Before Definition"
+echo "Creating Issue #17: Function Call Before Definition"
 gh issue create \
   --title "Fix function call order" \
   --body "**Priority:** High
@@ -147,7 +153,7 @@ May cause undefined function errors in some ZSH configurations
   --label "jules,bug,high priority" \
   --milestone "v1.1.0"
 
-echo "Creating Issue #9: Missing Directory Creation"
+echo "Creating Issue #18: Missing Directory Creation"
 gh issue create \
   --title "Add directory creation" \
   --body "**Priority:** High
@@ -168,7 +174,7 @@ Plugin fails silently if directory doesn't exist
   --label "jules,bug,high priority" \
   --milestone "v1.1.0"
 
-echo "Creating Issue #10: Installation Path Errors"
+echo "Creating Issue #19: Installation Path Errors"
 gh issue create \
   --title "Fix installation paths" \
   --body "**Priority:** High
@@ -188,7 +194,7 @@ Plugin won't be found by Oh My Zsh
   --label "jules,bug,documentation,high priority" \
   --milestone "v1.1.0"
 
-echo "Creating Issue #11: Non-existent Install Script Reference"
+echo "Creating Issue #20: Non-existent Install Script Reference"
 gh issue create \
   --title "Create install script" \
   --body "**Priority:** High
@@ -210,7 +216,7 @@ Users can't use curl installation method
   --label "jules,enhancement,high priority,installation" \
   --milestone "v1.2.0"
 
-echo "Creating Issue #12: No Error Handling"
+echo "Creating Issue #21: No Error Handling"
 gh issue create \
   --title "Add basic error handling" \
   --body "**Priority:** Medium
@@ -230,7 +236,7 @@ Silent failures, poor user experience
   --label "jules,enhancement,error handling" \
   --milestone "v1.1.0"
 
-echo "Creating Issue #13: Async Callback Issues"
+echo "Creating Issue #22: Async Callback Issues"
 gh issue create \
   --title "Fix async callback issues" \
   --body "**Priority:** Medium
@@ -256,7 +262,7 @@ Async completion updates may fail silently, leaving users with stale completions
 
 # Documentation Issues
 
-echo "Creating Issue #14: Inconsistent Documentation"
+echo "Creating Issue #23: Inconsistent Documentation"
 gh issue create \
   --title "Improve documentation consistency" \
   --body "**Priority:** Medium
@@ -277,7 +283,7 @@ Various typos, inconsistencies, and unclear instructions
   --label "jules,documentation,cleanup" \
   --milestone "v1.2.0"
 
-echo "Creating Issue #15: Missing Usage Examples"
+echo "Creating Issue #24: Missing Usage Examples"
 gh issue create \
   --title "Add usage examples" \
   --body "**Priority:** Medium
@@ -297,7 +303,7 @@ Users don't understand the value proposition
   --label "jules,documentation,examples" \
   --milestone "v1.2.0"
 
-echo "Creating Issue #16: Incomplete Troubleshooting"
+echo "Creating Issue #25: Incomplete Troubleshooting"
 gh issue create \
   --title "Complete troubleshooting guide" \
   --body "**Priority:** Low
@@ -319,7 +325,7 @@ Users struggle with issues
 
 # Missing Infrastructure (High Priority)
 
-echo "Creating Issue #17: No Test Suite"
+echo "Creating Issue #26: No Test Suite"
 gh issue create \
   --title "Add test suite foundation" \
   --body "**Priority:** High
@@ -345,7 +351,7 @@ Regressions likely, hard to verify fixes
   --label "jules,infrastructure,testing,high priority" \
   --milestone "v1.1.0"
 
-echo "Creating Issue #18: No CI/CD Pipeline"
+echo "Creating Issue #27: No CI/CD Pipeline"
 gh issue create \
   --title "Add CI/CD pipeline" \
   --body "**Priority:** High
@@ -371,7 +377,7 @@ Manual testing burden, deployment inconsistencies
   --label "jules,infrastructure,ci/cd,high priority" \
   --milestone "v1.1.0"
 
-echo "Creating Issue #19: Missing GitHub Templates"
+echo "Creating Issue #28: Missing GitHub Templates"
 gh issue create \
   --title "Add GitHub templates" \
   --body "**Priority:** Medium
@@ -398,7 +404,7 @@ Poor contributor experience, inconsistent reports
   --label "jules,infrastructure,documentation,community" \
   --milestone "v1.2.0"
 
-echo "Creating Issue #20: No Security Policy"
+echo "Creating Issue #29: No Security Policy"
 gh issue create \
   --title "Add security policy" \
   --body "**Priority:** Medium
@@ -418,7 +424,7 @@ Unclear how to report security issues
   --label "jules,infrastructure,security" \
   --milestone "v1.2.0"
 
-echo "Creating Issue #21: No Formal Release Process"
+echo "Creating Issue #30: No Formal Release Process"
 gh issue create \
   --title "Formalise release process" \
   --body "**Priority:** Medium
@@ -448,7 +454,7 @@ Inconsistent releases, unclear versioning, missing changelogs
 
 # Feature Improvements (Medium-Low Priority)
 
-echo "Creating Issue #22: Cross-Platform Notifications"
+echo "Creating Issue #31: Cross-Platform Notifications"
 gh issue create \
   --title "Cross-platform notifications" \
   --body "**Priority:** Medium
@@ -470,7 +476,7 @@ Add Linux notification support (notify-send)
   --label "jules,enhancement,cross-platform" \
   --milestone "v1.3.0"
 
-echo "Creating Issue #23: Configuration Options"
+echo "Creating Issue #32: Configuration Options"
 gh issue create \
   --title "Configuration options" \
   --body "**Priority:** Low
@@ -496,7 +502,7 @@ Add configurable options for:
   --label "jules,enhancement,configuration" \
   --milestone "v1.3.0"
 
-echo "Creating Issue #24: Debug Mode"
+echo "Creating Issue #33: Debug Mode"
 gh issue create \
   --title "Debug mode" \
   --body "**Priority:** Low
@@ -517,7 +523,7 @@ Add debug mode for troubleshooting
   --label "jules,enhancement,debugging" \
   --milestone "v1.3.0"
 
-echo "Creating Issue #25: Better Error Messages"
+echo "Creating Issue #34: Better Error Messages"
 gh issue create \
   --title "Better error messages" \
   --body "**Priority:** Low
@@ -540,7 +546,7 @@ More specific, actionable error messages
 
 # Architecture Improvements (Future)
 
-echo "Creating Issue #26: Plugin Manager Compatibility"
+echo "Creating Issue #35: Plugin Manager Compatibility"
 gh issue create \
   --title "Plugin manager compatibility" \
   --body "**Priority:** Low
@@ -565,7 +571,7 @@ Add support documentation for:
   --label "jules,enhancement,documentation,compatibility" \
   --milestone "v2.0.0"
 
-echo "Creating Issue #27: Performance Monitoring"
+echo "Creating Issue #36: Performance Monitoring"
 gh issue create \
   --title "Performance monitoring" \
   --body "**Priority:** Low
@@ -586,7 +592,7 @@ Add timing and performance tracking
   --label "jules,enhancement,performance" \
   --milestone "v2.0.0"
 
-echo "Creating Issue #28: Update Mechanism"
+echo "Creating Issue #37: Update Mechanism"
 gh issue create \
   --title "Update mechanism" \
   --body "**Priority:** Low
