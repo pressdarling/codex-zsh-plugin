@@ -46,8 +46,6 @@ codex_update_completions() {
 _codex_current_hash="$(_codex_compute_current_hash)"
 _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
 
-typeset -g -A _comps
-
 # Check if we need to regenerate completions
 if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
   # Generate completions asynchronously if possible
