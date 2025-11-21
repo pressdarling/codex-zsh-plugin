@@ -46,6 +46,11 @@ codex_update_completions() {
 _codex_current_hash="$(_codex_compute_current_hash)"
 _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
 
+# Check if hash generation succeeded
+if [[ -z "$_codex_current_hash" ]]; then
+  _codex_notify "Could not generate hash for codex binary. Completions will not be updated."
+  return
+fi
 # Check if we need to regenerate completions
 if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
   # Generate completions asynchronously if possible
@@ -76,7 +81,4 @@ _codex_async_callback() {
 }
 
 # If the completion file exists, load it
-if [[ -f "$_codex_completion_file" ]]; then
-  autoload -Uz _codex
-  _comps[codex]=_codex
-fi
+_codex_register_completions
