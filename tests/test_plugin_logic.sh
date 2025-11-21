@@ -98,7 +98,7 @@ else
   echo "  - FAILED: Completion file was not created."
   exit 1
 fi
-if [[ "$(cat $_codex_hash_file)" == "nohash" ]]; then
+if [[ "$(cat "$_codex_hash_file")" == "nohash" ]]; then
     echo "  - PASSED: Hash file was created with 'nohash'."
 else
     echo "  - FAILED: Hash file was not created with 'nohash'."
