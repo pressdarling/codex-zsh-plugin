@@ -32,6 +32,10 @@
 ZSH_CACHE_DIR="$(mktemp -d)"
 mkdir -p "$ZSH_CACHE_DIR/completions"
 
+# Define completion paths used by the plugin.
+_codex_completion_file="$ZSH_CACHE_DIR/completions/_codex"
+_codex_hash_file="$ZSH_CACHE_DIR/completions/_codex.hash"
+
 # Add the mock completions directory to the `fpath` so that `autoload` can find
 # the completion files.
 fpath=("$ZSH_CACHE_DIR/completions" $fpath)
@@ -61,26 +65,24 @@ osascript() {
   echo "osascript mocked"
 }
 
-# Mock `zsh-async` functions if they don't exist.
-if ! command -v async_start_worker &> /dev/null; then
-  async_start_worker() {
-    : # no-op
-  }
-  async_job() {
-    # In our mock, we call the callback immediately to simulate the async job
-    # completing.
-    case "$2" in
-      codex_update_completions)
-        shift 2 # shift away worker name and callback name
-        codex_update_completions "$@"
-        ;;
-      *)
-        echo "ERROR: async_job called with unexpected callback: $2"
-        return 1
-        ;;
-    esac
-  }
-fi
+# Always mock `zsh-async` functions to ensure deterministic behavior during tests.
+async_start_worker() {
+  : # no-op
+}
+async_job() {
+  # In our mock, we call the callback immediately to simulate the async job
+  # completing.
+  case "$2" in
+    codex_update_completions)
+      shift 2 # shift away worker name and callback name
+      codex_update_completions "$@"
+      ;;
+    *)
+      echo "ERROR: async_job called with unexpected callback: $2"
+      return 1
+      ;;
+  esac
+}
 
 # --- Test Cases ---
 
@@ -100,10 +102,10 @@ else
   echo "  - FAILED: Completion file was not created."
   exit 1
 fi
-if [[ "$(cat "$_codex_hash_file")" == "nohash" ]]; then
-    echo "  - PASSED: Hash file was created with 'nohash'."
+if [[ "$(cat "$_codex_hash_file")" == "mocked_hash" ]]; then
+    echo "  - PASSED: Hash file was created with 'mocked_hash'."
 else
-    echo "  - FAILED: Hash file was not created with 'nohash'."
+    echo "  - FAILED: Hash file was not created with 'mocked_hash'."
     exit 1
 fi
 
@@ -114,7 +116,7 @@ shasum() { echo "new_mocked_hash"; }
 
 source "${0:A:h}/../codex.plugin.zsh"
 
-if [[ "$(cat $_codex_hash_file)" == "new_mocked_hash" ]]; then
+if [[ "$(cat "$_codex_hash_file")" == "new_mocked_hash" ]]; then
   echo "  - PASSED: Hash file was updated with the new hash."
 else
   echo "  - FAILED: Hash file was not updated with the new hash."

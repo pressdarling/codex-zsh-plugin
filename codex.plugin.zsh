@@ -42,22 +42,21 @@ _codex_run_update() {
   fi
 }
 
+_codex_current_hash=$({
+  local codex_path
+  codex_path="$(whence -p codex)"
+  if [[ -n "$codex_path" ]]; then
+    shasum -a 256 "$codex_path" 2>/dev/null | cut -d' ' -f1
+  fi
+})
+
 if [[ ! -f "$_codex_completion_file" ]]; then
-  # Completions don't exist, generate them now.
-  _codex_run_update "nohash"
+  # Completions don't exist, generate them. Use "nohash" if shasum failed.
+  _codex_run_update "${_codex_current_hash:-nohash}"
 else
   # Completions exist, check if they are outdated.
-  _codex_current_hash=$({
-    local codex_path
-    codex_path="$(whence -p codex)"
-    if [[ -n "$codex_path" ]]; then
-      shasum -a 256 "$codex_path" 2>/dev/null | cut -d' ' -f1
-    fi
-  })
   if [[ -n "$_codex_current_hash" ]]; then
-    # shasum succeeded, check for updates.
     _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
-
     if [[ "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
       _codex_run_update "$_codex_current_hash"
     fi
