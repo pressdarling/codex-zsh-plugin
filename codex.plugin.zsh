@@ -30,7 +30,7 @@ _codex_hash_for_codex() {
   "${hash_cmd[@]}" "$(command -v codex)" | cut -d' ' -f1
 }
 
-codex_register_completions() {
+_codex_register_completions() {
   if [[ -f "$_codex_completion_file" ]]; then
     typeset -g -A _comps
     autoload -Uz _codex
@@ -45,7 +45,7 @@ _codex_generate_completions() {
   codex completion zsh >| "$_codex_completion_file"
 }
 
-_codex_update_and_save_hash() {
+_codex_update_sync() {
   if _codex_generate_completions; then
     local new_hash
     new_hash=$(_codex_hash_for_codex)
@@ -82,6 +82,7 @@ _codex_async_callback() {
   fi
 }
 
+# Capture current and stored hashes before deciding to regenerate
 _codex_current_hash="$(_codex_hash_for_codex)"
 _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
 
@@ -101,8 +102,8 @@ if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_store
     async_register_callback codex_worker _codex_async_callback
     async_job codex_worker _codex_generate_completions
   else
-    # Fall back to synchronous generation to ensure completions are available immediately
-    _codex_update_and_save_hash
+    # Fall back to synchronous update when async not available
+    _codex_update_sync
   fi
 fi
 
