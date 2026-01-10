@@ -97,8 +97,8 @@ if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_store
   # Generate completions asynchronously if possible
   if command -v async_start_worker &> /dev/null; then
     async_start_worker codex_worker -n
-    async_job codex_worker codex_update_completions
     async_register_callback codex_worker _codex_async_callback
+    async_job codex_worker codex_update_completions
   else
     # Fall back to synchronous update when async not available
     _codex_update_and_save_hash
