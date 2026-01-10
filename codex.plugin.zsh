@@ -46,19 +46,17 @@ _codex_generate_completions() {
 }
 
 _codex_update_sync() {
-  if _codex_generate_completions; then
-    local new_hash
-    new_hash=$(_codex_hash_for_codex)
-    if [[ -n "$new_hash" ]]; then
-      echo "$new_hash" >| "$_codex_hash_file"
-    fi
+  _codex_generate_completions || return 1
 
-    _codex_register_completions
-    _codex_notify "Codex completions updated."
-    return 0
-  else
-    return 1
+  local new_hash
+  new_hash=$(_codex_hash_for_codex)
+  if [[ -n "$new_hash" ]]; then
+    echo "$new_hash" >| "$_codex_hash_file"
   fi
+
+  _codex_register_completions
+  _codex_notify "Codex completions updated."
+  return 0
 }
 
 # Callback for async completion
