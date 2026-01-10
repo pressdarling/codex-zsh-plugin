@@ -52,6 +52,7 @@ _codex_update_sync() {
     if [[ -n "$new_hash" ]]; then
       echo "$new_hash" >| "$_codex_hash_file"
     fi
+
     _codex_register_completions
     _codex_notify "Codex completions updated."
     return 0
