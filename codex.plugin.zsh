@@ -62,13 +62,13 @@ _codex_update_sync() {
 
 # _codex_async_callback is an async worker callback that, on successful job completion, recomputes and writes the codex hash, reloads completions and sends a notification.
 _codex_async_callback() {
-  # The callback receives: worker_name, job_name, return_code, output, execution_time, error_output
-  local worker_name=$1
-  local job_name=$2
-  local exit_code=$3
-  local output=$4
-  local execution_time=$5
-  local error_output=$6
+  # zsh-async callback signature: job_name, return_code, stdout, execution_time, stderr, has_next
+  local job_name=$1
+  local exit_code=$2
+  local output=$3
+  local execution_time=$4
+  local error_output=$5
+  local has_next=$6
 
   # Only update hash and reload completions on success (exit code 0)
   if (( exit_code == 0 )); then
