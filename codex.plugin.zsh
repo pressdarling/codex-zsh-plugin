@@ -92,16 +92,26 @@ _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
 
 # Check if hash generation succeeded
 if [[ -z "$_codex_current_hash" ]]; then
-  _codex_notify "Could not generate hash for codex binary. Completions will not be managed."
-  # Still load existing completions if available
-  _codex_register_completions
+  # If no completion file exists, generate it once without hash management
+  if [[ ! -f "$_codex_completion_file" ]]; then
+    _codex_notify "Could not generate hash for codex binary. Generating completions without version tracking."
+    _codex_generate_completions && _codex_register_completions
+  else
+    _codex_notify "Could not generate hash for codex binary. Using existing completions without version tracking."
+    _codex_register_completions
+  fi
   return
+# Still load existing completions if available
+_codex_register_completions
+return
 fi
 
 # Check if we need to regenerate completions
 if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
   if command -v async_start_worker &> /dev/null; then
-    # ... (async logic)
+    async_start_worker codex_worker -n
+    async_job codex_worker _codex_generate_completions
+    async_register_callback codex_worker _codex_async_callback
     _codex_register_completions # Load existing completions for now
   else
     _codex_update_sync # This generates and registers
