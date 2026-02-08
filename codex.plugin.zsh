@@ -17,6 +17,8 @@ _codex_notify() {
   fi
 }
 
+# _codex_hash_for_codex computes the SHA-256 hash of the installed codex executable and writes the hexadecimal digest to stdout.
+# It returns a non-zero status if neither `shasum` nor `sha256sum` is available.
 _codex_hash_for_codex() {
   local -a hash_cmd
   if (( $+commands[shasum] )); then
@@ -30,6 +32,7 @@ _codex_hash_for_codex() {
   "${hash_cmd[@]}" "$(command -v codex)" | cut -d' ' -f1
 }
 
+# _codex_register_completions registers the codex completion function in the global _comps map if the completion file exists.
 _codex_register_completions() {
   if [[ -f "$_codex_completion_file" ]]; then
     typeset -g -A _comps
@@ -41,10 +44,12 @@ _codex_register_completions() {
   fi
 }
 
+# _codex_generate_completions generates the zsh completion script for the `codex` command and writes it to the cache file (`$_codex_completion_file`), overwriting any existing contents.
 _codex_generate_completions() {
   codex completion zsh >| "$_codex_completion_file"
 }
 
+# _codex_update_sync generates zsh completions for codex, updates the stored codex hash if available, registers the completions and sends a notification.
 _codex_update_sync() {
   _codex_generate_completions || return 1
 
@@ -59,7 +64,7 @@ _codex_update_sync() {
   return 0
 }
 
-# Callback for async completion
+# _codex_async_callback is an async worker callback that, on successful job completion, recomputes and writes the codex hash, reloads completions and sends a notification.
 _codex_async_callback() {
   # The callback receives: worker_name, job_name, return_code, output, execution_time, error_output
   local worker_name=$1
