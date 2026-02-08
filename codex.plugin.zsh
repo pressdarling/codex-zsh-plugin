@@ -1,4 +1,6 @@
-# Autocompletion for the GitHub CLI (codex).
+# Autocompletion for the OpenAI Codex CLI.
+# Version: 1.0.0
+
 if (( ! $+commands[codex] )); then
   echo "codex command not found. Please install it with 'brew install codex'"
   return
