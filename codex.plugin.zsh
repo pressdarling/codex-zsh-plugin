@@ -42,14 +42,6 @@ _codex_register_completions() {
   else
     return 1
   fi
-}
-
-# _codex_generate_completions generates the zsh completion script for the `codex` command and writes it to the cache file (`$_codex_completion_file`), overwriting any existing contents.
-_codex_generate_completions() {
-  codex completion zsh >| "$_codex_completion_file"
-}
-
-# _codex_update_sync generates zsh completions for codex, updates the stored codex hash if available, registers the completions and sends a notification.
 _codex_update_sync() {
   _codex_generate_completions || return 1
 
@@ -59,9 +51,13 @@ _codex_update_sync() {
     echo "$new_hash" >| "$_codex_hash_file"
   fi
 
-  _codex_register_completions
-  _codex_notify "Codex completions updated."
-  return 0
+  if _codex_register_completions; then
+    _codex_notify "Codex completions updated."
+    return 0
+  else
+    _codex_notify "Codex completions generated but registration failed."
+    return 1
+  fi
 }
 
 # _codex_async_callback is an async worker callback that, on successful job completion, recomputes and writes the codex hash, reloads completions and sends a notification.
