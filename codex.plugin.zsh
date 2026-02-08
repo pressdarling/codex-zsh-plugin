@@ -100,15 +100,14 @@ fi
 
 # Check if we need to regenerate completions
 if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
-  # Generate completions asynchronously if possible
   if command -v async_start_worker &> /dev/null; then
-    async_start_worker codex_worker -n
-    async_register_callback codex_worker _codex_async_callback
-    async_job codex_worker _codex_generate_completions
+    # ... (async logic)
+    _codex_register_completions # Load existing completions for now
   else
-    # Fall back to synchronous update when async not available
-    _codex_update_sync
+    _codex_update_sync # This generates and registers
   fi
+else
+  _codex_register_completions # Load up-to-date completions
 fi
 
 # If the completion file exists, load it
