@@ -19,12 +19,18 @@ if [[ ! -f "$VERSION_FILE" ]]; then
     exit 1
 fi
 
-CURRENT_VERSION=$(cat "$VERSION_FILE")
-IFS='.' read -ra ADDR <<< "$CURRENT_VERSION"
-MAJOR=${ADDR[0]}
-MINOR=${ADDR[1]}
-PATCH=${ADDR[2]}
+CURRENT_VERSION=$(tr -d '[:space:]' < "$VERSION_FILE")
 
+# Validate version format: must be MAJOR.MINOR.PATCH with numeric components
+if [[ $CURRENT_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+    MAJOR=${BASH_REMATCH[1]}
+    MINOR=${BASH_REMATCH[2]}
+    PATCH=${BASH_REMATCH[3]}
+else
+    echo "Error: Invalid version format in $VERSION_FILE: '$CURRENT_VERSION'."
+    echo "Expected format: MAJOR.MINOR.PATCH (e.g., 1.2.3) with numeric components only."
+    exit 1
+fi
 case $BUMP_TYPE in
     patch)
         PATCH=$((PATCH + 1))
