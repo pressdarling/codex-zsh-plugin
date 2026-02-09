@@ -53,7 +53,7 @@ echo "$NEW_VERSION" > "$VERSION_FILE"
 
 # Update version comment in plugin file
 # Using a temp file for portability with sed
-sed "s/# Version: $CURRENT_VERSION/# Version: $NEW_VERSION/" "$PLUGIN_FILE" > "$PLUGIN_FILE.tmp" && mv "$PLUGIN_FILE.tmp" "$PLUGIN_FILE"
+sed "s/^# Version: .*/# Version: $NEW_VERSION/" "$PLUGIN_FILE" > "$PLUGIN_FILE.tmp" && mv "$PLUGIN_FILE.tmp" "$PLUGIN_FILE"
 
 # Commit and tag
 git add "$VERSION_FILE" "$PLUGIN_FILE"
