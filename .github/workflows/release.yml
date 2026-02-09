@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get tag name
+        # this section via https://mbund.dev/posts/advanced-github/#releases
+        id: tag-name
+        run: |
+          echo "tagname=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.tag-name.outputs.tagname }}" --generate-notes --fail-on-no-commits
