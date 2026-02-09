@@ -22,74 +22,61 @@ This largely vibecoded plugin provides completions for OpenAI's [Codex](https://
 
 ### Oh-My-Zsh
 
-If you're using [Oh My Zsh](https://ohmyz.sh/), the easiest way to install this plugin is to use the built-in plugin manager. 
+1. Clone the repository into your custom plugins directory:
+   ```sh
+   git clone https://github.com/pressdarling/codex-zsh-plugin.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/codex
+   ```
 
-PRs are welcome to add this plugin to the official Oh My Zsh plugins list, but until then, you can install it manually as described below.
+2. Add `codex` to the plugins array in your `~/.zshrc` file:
+   ```zsh
+   plugins=(... codex)
+   ```
 
-To use it, add `codex` to the plugins array in your `~/.zshrc` file:
+3. Restart zsh:
+   ```sh
+   exec zsh
+   ```
 
-```sh
-plugins=(... codex)
-```
+### Zinit
 
-Reload Oh My Zsh by running:
-
-```sh
-omz reload
-```
-
-Or restart zsh:
-```sh
-# don't use `source ~/.zshrc` unless you love shaving yaks
-exec zsh
-```
-
-### Manual Installation
-
-If you prefer to install the plugin manually, clone the repository into your custom plugins directory.
-
-If you are using a custom plugins directory (recommended), you can set the `$ZSH_CUSTOM` environment variable in your `~/.zshrc` file:
+To install using [Zinit](https://github.com/zdharma-continuum/zinit), add the following to your `~/.zshrc`:
 
 ```sh
-export ZSH_CUSTOM=/path/to/your/custom/plugins
+zinit light pressdarling/codex-zsh-plugin
 ```
 
-If you don't have a custom plugins directory set up, you can use the default one provided by Oh My Zsh, which is usually `~/.oh-my-zsh/custom/plugins`. Other common paths include `~/.zsh/custom/plugins` or `/path/to/your/zsh/custom/plugins`. If don't have a `$ZSH_CUSTOM` directory, you can create it first:
+### Zplug
+
+To install using [Zplug](https://github.com/zplug/zplug), add the following to your `~/.zshrc`:
 
 ```sh
-if [ ! -d "$ZSH_CUSTOM" ]; then
-  mkdir -p ~/.zsh/custom/plugins
-  echo 'export ZSH_CUSTOM=~/.zsh/custom/plugins' >> ~/.zshrc
-fi
+zplug "pressdarling/codex-zsh-plugin"
 ```
 
-Then, clone the repository into your `$ZSH_CUSTOM/plugins` directory:
+### Antigen
+
+To install using [Antigen](https://github.com/zsh-users/antigen), add the following to your `~/.zshrc`:
 
 ```sh
-# with HTTPS:
-git clone https://github.com/pressdarling/codex-zsh-plugin.git $ZSH_CUSTOM/plugins
+antigen bundle pressdarling/codex-zsh-plugin
 ```
 
-```sh
-# or with SSH:
-git clone git@github.com/pressdarling/codex-zsh-plugin.git $ZSH_CUSTOM/plugins
-```
+### Standard Zsh (Manual)
 
-```sh
-# or with gh CLI:
-gh repo clone pressdarling/codex-zsh-plugin $ZSH_CUSTOM/plugins
-```
+1. Clone the repository to a directory of your choice (e.g., `~/.zsh/codex`):
+   ```sh
+   git clone https://github.com/pressdarling/codex-zsh-plugin.git ~/.zsh/codex
+   ```
 
-```sh
-# or with curl:
-curl -L https://raw.githubusercontent.com/pressdarling/codex-zsh-plugin/main/tools/install.sh | bash -s -- --path $ZSH_CUSTOM/plugins
-```
+2. Source the plugin in your `~/.zshrc`:
+   ```zsh
+   source ~/.zsh/codex/codex.plugin.zsh
+   ```
 
-Then, restart your terminal or source your `~/.zshrc` file:
-
-```sh
-exec zsh
-```
+3. Restart zsh:
+   ```sh
+   exec zsh
+   ```
 
 ### I hate installing things and I don't trust random GitHub repositories
 
