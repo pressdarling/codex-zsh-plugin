@@ -7,8 +7,8 @@ This document outlines the release process for the Codex ZSH Plugin.
 We follow [Semantic Versioning (SemVer)](https://semver.org/):
 
 - **MAJOR** version (x.0.0) for incompatible API changes.
-- **MINOR** version (0.x.0) for functionality added in a backwards compatible manner.
-- **PATCH** version (0.0.x) for backwards compatible bug fixes.
+- **MINOR** version (x.y.0) for functionality added in a backwards compatible manner.
+- **PATCH** version (x.y.z) for backwards compatible bug fixes.
 
 ## Release Testing Checklist
 
