@@ -124,5 +124,6 @@ zsdoc/data
 # End of https://www.toptal.com/developers/gitignore/api/macos,sublimetext,zsh,git,dotenv
 
 # Specific subdirectories to include
+*/
 !.github/
 !tools/
