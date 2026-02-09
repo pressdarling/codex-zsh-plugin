@@ -63,7 +63,7 @@ sed "s/^# Version: .*/# Version: $NEW_VERSION/" "$PLUGIN_FILE" > "$PLUGIN_FILE.t
 
 # Commit and tag
 git add "$VERSION_FILE" "$PLUGIN_FILE"
-git commit -m "Release v$NEW_VERSION"
+git commit --only "$VERSION_FILE" "$PLUGIN_FILE" -m "Release v$NEW_VERSION"
 git tag -a "v$NEW_VERSION" -m "Release v$NEW_VERSION"
 
 echo "Successfully bumped version and created tag v$NEW_VERSION"
