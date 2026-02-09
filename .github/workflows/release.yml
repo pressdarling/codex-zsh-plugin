@@ -18,11 +18,10 @@ jobs:
         # this section via https://mbund.dev/posts/advanced-github/#releases
         id: tag-name
         run: |
-          echo "tagname=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "tagname=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
 
       - name: Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create ${{ steps.tag-name.outputs.tagname }} --generate-notes --fail-on-no-commits
-          gh release upload ${{ steps.tag-name.outputs.tagname }} canvas-cli-x86_64-unknown-linux-musl
+          gh release create "${{ steps.tag-name.outputs.tagname }}" --generate-notes --fail-on-no-commits
