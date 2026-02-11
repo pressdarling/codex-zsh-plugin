@@ -4,8 +4,17 @@ if (( ! $+commands[codex] )); then
   return
 fi
 
-_codex_completion_file="$ZSH_CACHE_DIR/completions/_codex"
-_codex_hash_file="$ZSH_CACHE_DIR/completions/_codex.hash"
+_codex_completions_dir="${ZSH_CACHE_DIR:-$HOME/.zsh-cache}/completions"
+
+if [[ ! -d "$_codex_completions_dir" ]]; then
+  if ! mkdir -p "$_codex_completions_dir"; then
+    echo "codex: failed to create completions directory at $_codex_completions_dir" >&2
+    return 1
+  fi
+fi
+
+_codex_completion_file="$_codex_completions_dir/_codex"
+_codex_hash_file="$_codex_completions_dir/_codex.hash"
 
 _codex_current_hash="$(command -v codex | xargs shasum -a 256 | cut -d' ' -f1)"
 _codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
