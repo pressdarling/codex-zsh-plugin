@@ -4,29 +4,12 @@ if (( ! $+commands[codex] )); then
   return
 fi
 
-_codex_completion_file="$ZSH_CACHE_DIR/completions/_codex"
-_codex_hash_file="$ZSH_CACHE_DIR/completions/_codex.hash"
+# Ensure the completions directory exists and paths are defined before use
+_codex_completion_dir="$ZSH_CACHE_DIR/completions"
+_codex_completion_file="$_codex_completion_dir/_codex"
+_codex_hash_file="$_codex_completion_dir/_codex.hash"
 
-_codex_current_hash="$(command -v codex | xargs shasum -a 256 | cut -d' ' -f1)"
-_codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
-
-if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
-  codex_update_completions
-  echo "$_codex_current_hash" >| "$_codex_hash_file"
-fi
-
-# If the completion file doesn't exist yet, we need to autoload it and
-# bind it to `codex`. Otherwise, compinit will have already done that.
-if [[ ! -f "$_codex_completion_file" ]]; then
-  typeset -g -A _comps
-  autoload -Uz _codex
-  _comps[codex]=_codex
-fi
-
-codex_update_completions() {
-  codex completion zsh >| "$_codex_completion_file"
-  _codex_notify "Codex completions updated."
-}
+mkdir -p "$_codex_completion_dir"
 
 _codex_notify() {
   if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -34,9 +17,94 @@ _codex_notify() {
   fi
 }
 
-if command -v async_start_worker &> /dev/null; then
-  async_start_worker codex -n
-  async_register_callback codex codex_update_completions
-else
-  codex_update_completions &|
+_codex_hash_for_codex() {
+  local -a hash_cmd
+  if (( $+commands[shasum] )); then
+    hash_cmd=(shasum -a 256)
+  elif (( $+commands[sha256sum] )); then
+    hash_cmd=(sha256sum)
+  else
+    return 1
+  fi
+
+  "${hash_cmd[@]}" "$(command -v codex)" | cut -d' ' -f1
+}
+
+codex_register_completions() {
+  if [[ -f "$_codex_completion_file" ]]; then
+    typeset -g -A _comps
+    autoload -Uz _codex
+    _comps[codex]=_codex
+    return 0
+  else
+    return 1
+  fi
+}
+
+codex_update_completions() {
+  if codex completion zsh >| "$_codex_completion_file"; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+_codex_update_and_save_hash() {
+  if codex_update_completions; then
+    local new_hash
+    new_hash=$(_codex_hash_for_codex)
+    if [[ -n "$new_hash" ]]; then
+      echo "$new_hash" >| "$_codex_hash_file"
+    fi
+  fi
+}
+
+_codex_current_hash="$(_codex_hash_for_codex)"
+_codex_stored_hash="$(cat "$_codex_hash_file" 2>/dev/null)"
+
+# Check if hash generation succeeded
+if [[ -z "$_codex_current_hash" ]]; then
+  _codex_notify "Could not generate hash for codex binary. Completions will not be managed."
+  # Still load existing completions if available
+  _codex_register_completions
+  return
 fi
+
+# Callback for async completion
+_codex_async_callback() {
+  # The callback receives: worker_name, job_name, return_code, output, execution_time, error_output
+  local worker_name=$1
+  local job_name=$2
+  local exit_code=$3
+  local output=$4
+  local execution_time=$5
+  local error_output=$6
+
+  # Only update hash and reload completions on success (exit code 0)
+  if (( exit_code == 0 )); then
+    local updated_hash
+    updated_hash="$(_codex_hash_for_codex)"
+    [[ -n "$updated_hash" ]] || return
+
+    echo "$updated_hash" >| "$_codex_hash_file"
+    _codex_register_completions
+    _codex_notify "Codex completions updated."
+  fi
+}
+
+# Check if we need to regenerate completions
+if [[ ! -f "$_codex_completion_file" || "$_codex_current_hash" != "$_codex_stored_hash" ]]; then
+  # Generate completions asynchronously if possible
+  if command -v async_start_worker &> /dev/null; then
+    async_start_worker codex_worker -n
+    async_register_callback codex_worker _codex_async_callback
+    async_job codex_worker codex_update_completions
+  else
+    # Fall back to synchronous update when async not available
+    _codex_update_and_save_hash
+  fi
+fi
+
+
+# If the completion file exists, load it
+_codex_register_completions
